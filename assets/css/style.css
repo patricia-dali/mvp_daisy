@@ -1,0 +1,29 @@
+body {
+    background: url(/assets/imagens/bg.jpg)no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.foco {
+    transform: translateY(-50%);
+}
+
+input:focus ~ label, 
+input:valid ~ label{
+    top: -5px
+}
+
+.user-info:hover .username,
+.user-info:hover .user-role {
+  display: none;
+}
+
+.user-info:hover .hover-username,
+.user-info:hover .hover-user-role {
+  display: block;
+}
+
+.hover-username,
+.hover-user-role {
+  display: none;
+}
