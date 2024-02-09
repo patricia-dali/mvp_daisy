@@ -18,8 +18,6 @@ replace exemplo.com/resetPassword => ./src/resetPassword
 
 replace exemplo.com/openAI => ./src/openAI
 
-replace exemplo.com/consulta => ./src/consulta
-
 require (
 	exemplo.com/consulta v0.0.0-00010101000000-000000000000
 	exemplo.com/database v0.0.0-00010101000000-000000000000
