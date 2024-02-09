@@ -1,35 +1,21 @@
-<section id="resposta"
-class="flex justify-center items-center w-full bg-center bg-cover">
-<div
-    class=" flex relative w-auto h-auto bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[20px] backdrop-blur-lg justify-center items-center">
-    <div>
-        <table class="w-full h-auto text-white">
-            <thead class="h-9">
-                <tr class="border-b-2">
-                    {{range .Columns}}
-                    <th class="px-8">{{.}}</th>
-                    {{end}}
-                </tr>
-            </thead>
-            <tbody>
-                {{range .QueryData}}
-                <tr>
-                    {{range .}}
-                    <td class="text-center px-8">{{.}}</td>
-                    {{end}}
-                </tr>
-                {{end}}
-            </tbody>
-        </table>
+<section id="resposta" class="relative top-36">
+    <div class="flex justify-center items-center w-full bg-center bg-cover">
+        <div class="flex relative w-auto h-auto bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[20px] backdrop-blur-lg justify-center items-center">
+            <div>
+                {{ .Resposta }}
+                {{ .TempoDeResposta }}
+            </div>
+        </div>
     </div>
-</div>
 </section>
 
 <div class="fixed text-white bottom-7 right-7">
-    <p>Tempo de pesquisa: <span id="elapsedTime">{{.ElapsedTime}}</span>s</p>
+    <p>Tempo de pesquisa: <span id="tempoDeResposta"></span>s</p>
     <script>
-        var elapsedTimeElement = document.getElementById('elapsedTime');
-        var elapsedTime = parseFloat(elapsedTimeElement.innerHTML);
-        elapsedTimeElement.innerHTML = elapsedTime.toFixed(2);
+        document.addEventListener('DOMContentLoaded', function () {
+            var tempoDeRespostaElement = document.getElementById('tempoDeResposta');
+            var tempoDeResposta = parseFloat(tempoDeRespostaElement.innerHTML);
+            tempoDeRespostaElement.innerHTML = tempoDeResposta.toFixed(2);
+        });
     </script>
 </div>

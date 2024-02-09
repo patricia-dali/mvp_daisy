@@ -16,9 +16,12 @@ replace exemplo.com/logout => ./src/logout
 
 replace exemplo.com/resetPassword => ./src/resetPassword
 
-replace exemplo.com/openAi => ./src/openAi
+replace exemplo.com/openAI => ./src/openAI
+
+replace exemplo.com/consulta => ./src/consulta
 
 require (
+	exemplo.com/consulta v0.0.0-00010101000000-000000000000
 	exemplo.com/database v0.0.0-00010101000000-000000000000
 	exemplo.com/router v0.0.0-00010101000000-000000000000
 	github.com/gorilla/sessions v1.2.2
@@ -30,10 +33,12 @@ require (
 	exemplo.com/index v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/login v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/logout v0.0.0-00010101000000-000000000000 // indirect
+	exemplo.com/openAI v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/resetPassword v0.0.0-00010101000000-000000000000 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/gorilla/securecookie v1.1.2 // indirect
 	github.com/lib/pq v1.10.9 // indirect
+	github.com/sashabaranov/go-openai v1.19.3 // indirect
 	golang.org/x/crypto v0.18.0 // indirect
 )

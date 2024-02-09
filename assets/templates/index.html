@@ -53,7 +53,20 @@
     </form>
 
     <section id="resposta" class="relative top-36">
+        <div class="flex justify-center items-center w-full bg-center bg-cover">
+            <div class=" flex relative w-auto h-auto bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[20px] backdrop-blur-lg justify-center items-center">
+                {{ .RespostaAI }}
+            </div>
+        </div>
 
+        <div class="fixed text-white bottom-7 right-7">
+            <p>Tempo de pesquisa: <span id="tempoDeResposta">{{.TempoDeResposta}}</span>s</p>
+            <script>
+                var tempoDeRespostaElement = document.getElementById('tempoDeResposta');
+                var tempoDeResposta = parseFloat(tempoDeRespostaElement.innerHTML);
+                tempoDeRespostaElement.innerHTML = tempoDeResposta.toFixed(2);
+            </script>
+        </div>
     </section>
 
 
