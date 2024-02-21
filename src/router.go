@@ -61,7 +61,10 @@ func HandleRoutes(mux *http.ServeMux, db *sql.DB, store *sessions.CookieStore) {
 		login.ShowLoginPage(w, r, store)
 	})
 
-	indexHandlerFunc := http.HandlerFunc(index.ShowIndexPage)
+	/* indexHandlerFunc := http.HandlerFunc(index.ShowIndexPage) */
+	indexHandlerFunc := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		index.ShowIndexPage(w, r, db)
+	})
 	mux.Handle("/index", AuthMiddleware(indexHandlerFunc, store))
 
 	mux.HandleFunc("/cadastro", cadastro.ShowCadastroPage)

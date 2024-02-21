@@ -109,7 +109,6 @@ func DeleteUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 func UpdateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	if r.Method == http.MethodGet {
-		// Exibir o formulário de atualização de usuário
 		id := r.FormValue("id")
 		if id == "" {
 			http.Error(w, "ID do usuário não informado.", http.StatusBadRequest)
