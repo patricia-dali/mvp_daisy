@@ -2,7 +2,6 @@ package index
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 	"text/template"
 	"time"
@@ -39,19 +38,12 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		respostaAI = "Sem pergunta fornecida."
 	}
 
+	var produtos []map[string]interface{}
 	if respostaAI != "Sem pergunta fornecida." && respostaAI != "Não tenho resposta para essa pergunta." {
-		produtos, err := questionDB(db, respostaAI)
+		produtos, err = questionDB(db, respostaAI)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
-		}
-
-		for _, produto := range produtos {
-			fmt.Printf("Dados do Produto:\n")
-			for col, value := range produto {
-				fmt.Printf("%s: %v\n", col, value)
-			}
-			fmt.Println("----------")
 		}
 	}
 
@@ -82,12 +74,14 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		IsAdmin         bool
 		RespostaAI      string
 		TempoDeResposta time.Duration
+		Produtos        []map[string]interface{} // Add this field
 	}{
 		Username:        username,
 		Email:           email,
 		IsAdmin:         isAdmin,
 		RespostaAI:      respostaAI,
 		TempoDeResposta: tempoDeResposta,
+		Produtos:        produtos,
 	}
 
 	tmpl.Execute(w, data)

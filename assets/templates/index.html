@@ -12,53 +12,69 @@
 </head>
 
 <body class="min-h-screen w-full">
-    <div
-        class="user-info flex justify-between w-[180px] p-2 h-auto text-white right-4 top-4 fixed bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[8px] backdrop-blur-lg">
+    <div class="user-info flex justify-between w-[180px] p-2 h-auto text-white right-4 top-4 fixed bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[8px] backdrop-blur-lg">
         <div>
             <h1 class="capitalize font-semibold text-base">{{.Username}}</h1>
             {{ if .IsAdmin }}
-            <p class="text-sm user-role">Administrador</p>
-            <p><a href="./users" class="no-underline font-semibold">Gerenciar usuários</a></p>
-            <form action="/logout" method="post">
-                <button class="text-sm hover-user-role hover:underline cursor-pointer">sair</button>
-            </form>
+                <p class="text-sm user-role">Administrador</p>
+                <p><a href="./users" class="no-underline font-semibold">Gerenciar usuários</a></p>
+                <form action="/logout" method="post">
+                    <button class="text-sm hover-user-role hover:underline cursor-pointer">sair</button>
+                </form>
             {{ else }}
-            <p class="text-sm user-role">Usuário</p>
-            <form action="/logout" method="post">
-                <button class="text-sm hover-user-role hover:underline cursor-pointer">sair</button>
-            </form>
-            
+                <p class="text-sm user-role">Usuário</p>
+                <form action="/logout" method="post">
+                    <button class="text-sm hover-user-role hover:underline cursor-pointer">sair</button>
+                </form>
             {{ end }}
         </div>
         <div class="text-5xl">
             {{ if .IsAdmin }}
-            <iconify-icon icon="ri:admin-line"></iconify-icon>
+                <iconify-icon icon="ri:admin-line"></iconify-icon>
             {{ else }}
-            <iconify-icon icon="ri:user-line"></iconify-icon>
+                <iconify-icon icon="ri:user-line"></iconify-icon>
             {{ end }}
         </div>
     </div>
-    </div>
 
-    <form hx-target="#resposta" class="absolute top-3 left-16"> 
+    <form hx-target="#resposta" class="absolute top-3 left-16">
         <div class="relative my-8 w-[550px] border-b-2 border-white">
             <button class="absolute right-2 text-white text-[1.2em] top-4" type="submit">
                 <iconify-icon icon="gg:search"></iconify-icon>
             </button>
             <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] px-5 md:pl-0 md:pr-35 text-white"
                 type="text" id="pergunta" name="pergunta" required>
-            <label
-                class="foco absolute top-2/4 left-0.5 text-white text-[1em] pointer-events-none transition duration-500"
+            <label class="foco absolute top-2/4 left-0.5 text-white text-[1em] pointer-events-none transition duration-500"
                 for="pergunta">Perguntar</label>
         </div>
     </form>
-
-    <section id="resposta" class="relative top-36">
-        <div class="flex justify-center items-center w-full bg-center bg-cover">
-            <div class=" flex relative w-auto h-auto bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[20px] backdrop-blur-lg justify-center items-center">
-                {{ .RespostaAI }}
-            </div>
-        </div>
+    <div class="relative top-36">
+    <section id="resposta" class="flex justify-center items-center w-full bg-center bg-cover">
+        <div
+            class=" flex relative w-auto h-auto bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[20px] backdrop-blur-lg justify-center items-center">
+            <div>
+                <table class="w-full h-auto text-white">
+                    <thead class="h-9">
+                        <tr class="border-b-2">
+                    {{ range $key, $value := (index .Produtos 0) }}
+                    <th class="px-8">
+                            {{ $key }}
+                        </th>
+                    {{ end }}
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Produtos }}
+                    <tr>
+                        {{ range $value := . }}
+                        <td class="text-center px-8">{{ $value }}</td>
+                        {{ end }}
+                    </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+</div>
 
         <div class="fixed text-white bottom-7 right-7">
             <p>Tempo de pesquisa: <span id="tempoDeResposta">{{.TempoDeResposta}}</span>s</p>
@@ -69,26 +85,24 @@
             </script>
         </div>
     </section>
+</div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var usernameInput = document.getElementById('pergunta');
+            usernameInput.focus();
+        });
 
+        function onHover() {
+            const username = document.querySelector('.username');
+            const userRole = document.querySelector('.user-role');
+            const hoverUsername = document.querySelector('.hover-username');
+            const hoverUserRole = document.querySelector('.hover-user-role');
+
+            hoverUsername.textContent = username.textContent;
+            hoverUserRole.textContent = userRole.textContent;
+        }
+    </script>
 </body>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var usernameInput = document.getElementById('pergunta');
-
-        usernameInput.focus();
-    });
-
-    function onHover() {
-    const username = document.querySelector('.username');
-    const userRole = document.querySelector('.user-role');
-    const hoverUsername = document.querySelector('.hover-username');
-    const hoverUserRole = document.querySelector('.hover-user-role');
-
-    hoverUsername.textContent = username.textContent; 
-    hoverUserRole.textContent = userRole.textContent; 
-  }
-
-</script>
 
 </html>
