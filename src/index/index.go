@@ -38,15 +38,6 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		respostaAI = "Sem pergunta fornecida."
 	}
 
-	var produtos []map[string]interface{}
-	if respostaAI != "Sem pergunta fornecida." && respostaAI != "Não tenho resposta para essa pergunta." {
-		produtos, err = questionDB(db, respostaAI)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-	}
-
 	session, err := store.Get(r, "user-session")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -56,6 +47,26 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	isAdmin, isAdminOK := session.Values["isAdmin"].(bool)
 	username, usernameOK := session.Values["username"].(string)
 	email, emailOK := session.Values["email"].(string)
+
+	if !isAdminOK || !usernameOK || !emailOK {
+		http.Error(w, "Erro ao obter dados da sessão", http.StatusInternalServerError)
+		return
+	}
+
+	var produtos []map[string]interface{}
+	if respostaAI != "Sem pergunta fornecida." && respostaAI != "Não tenho resposta para essa pergunta." {
+		produtos, err = questionDB(db, isAdmin, respostaAI)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	} else {
+		produtos, err = questionDB(db, isAdmin, "")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
 
 	if !isAdminOK || !usernameOK || !emailOK {
 		http.Error(w, "Erro ao obter dados da sessão", http.StatusInternalServerError)
@@ -74,7 +85,7 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		IsAdmin         bool
 		RespostaAI      string
 		TempoDeResposta time.Duration
-		Produtos        []map[string]interface{} // Add this field
+		Produtos        []map[string]interface{}
 	}{
 		Username:        username,
 		Email:           email,
@@ -87,7 +98,15 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	tmpl.Execute(w, data)
 }
 
-func questionDB(db *sql.DB, query string) ([]map[string]interface{}, error) {
+func questionDB(db *sql.DB, isAdmin bool, response string) ([]map[string]interface{}, error) {
+	var query string
+
+	if isAdmin {
+		query = response
+	} else {
+		query = "SELECT * FROM mercado"
+	}
+
 	rows, err := db.Query(query)
 	if err != nil {
 		return nil, err
@@ -116,7 +135,11 @@ func questionDB(db *sql.DB, query string) ([]map[string]interface{}, error) {
 		produto := make(map[string]interface{})
 
 		for i, col := range columns {
-			produto[col] = values[i]
+			if dataBytes, ok := values[i].([]uint8); ok {
+				produto[col] = string(dataBytes)
+			} else {
+				produto[col] = values[i]
+			}
 		}
 
 		produtos = append(produtos, produto)
