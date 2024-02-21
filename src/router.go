@@ -9,8 +9,34 @@ import (
 	"exemplo.com/login"
 	"exemplo.com/logout"
 	"exemplo.com/resetPassword"
+	"exemplo.com/users"
 	"github.com/gorilla/sessions"
 )
+
+func AdminAuthMiddleware(next http.HandlerFunc, store *sessions.CookieStore) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		session, err := store.Get(r, "user-session")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		username, ok := session.Values["username"].(string)
+		if !ok || username == "" {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+
+		// Verifica se o usuário é um administrador
+		isAdmin, ok := session.Values["isAdmin"].(bool)
+		if !ok || !isAdmin {
+			http.Error(w, "Acesso não autorizado", http.StatusForbidden)
+			return
+		}
+
+		next(w, r)
+	}
+}
 
 func AuthMiddleware(next http.HandlerFunc, store *sessions.CookieStore) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +46,8 @@ func AuthMiddleware(next http.HandlerFunc, store *sessions.CookieStore) http.Han
 			return
 		}
 
-		if auth, ok := session.Values["username"].(string); !ok || auth == "" {
+		username, ok := session.Values["username"].(string)
+		if !ok || username == "" {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 			return
 		}
@@ -38,6 +65,9 @@ func HandleRoutes(mux *http.ServeMux, db *sql.DB, store *sessions.CookieStore) {
 	mux.Handle("/index", AuthMiddleware(indexHandlerFunc, store))
 
 	mux.HandleFunc("/cadastro", cadastro.ShowCadastroPage)
+
+	usersHandlerFunc := http.HandlerFunc(users.ShowUsersPage)
+	mux.Handle("/users", AdminAuthMiddleware(usersHandlerFunc, store))
 
 	mux.HandleFunc("/reset-password", resetPassword.ShowResetPage)
 	mux.HandleFunc("/send-reset-email", resetPassword.SendResetEmailHandler)

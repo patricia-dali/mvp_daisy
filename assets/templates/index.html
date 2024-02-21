@@ -18,6 +18,7 @@
             <h1 class="capitalize font-semibold text-base">{{.Username}}</h1>
             {{ if .IsAdmin }}
             <p class="text-sm user-role">Administrador</p>
+            <p><a href="./users" class="no-underline font-semibold">Gerenciar usuários</a></p>
             <form action="/logout" method="post">
                 <button class="text-sm hover-user-role hover:underline cursor-pointer">sair</button>
             </form>
