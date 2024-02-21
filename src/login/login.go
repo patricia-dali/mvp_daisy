@@ -35,12 +35,13 @@ func Login(w http.ResponseWriter, r *http.Request, db *sql.DB, store *sessions.C
 	usernameInput := r.FormValue("username")
 	passwordInput := r.FormValue("password")
 
+	var userID int
 	var hashedPassword string
 	var email string
 	var salt string
 	var isAdmin bool
 
-	err := db.QueryRow("SELECT password, salt, admin, email FROM users WHERE username = $1", usernameInput).Scan(&hashedPassword, &salt, &isAdmin, &email)
+	err := db.QueryRow("SELECT id, password, salt, admin, email FROM users WHERE username = $1", usernameInput).Scan(&userID, &hashedPassword, &salt, &isAdmin, &email)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -61,6 +62,7 @@ func Login(w http.ResponseWriter, r *http.Request, db *sql.DB, store *sessions.C
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	session.Values["id"] = userID
 	session.Values["username"] = usernameInput
 	session.Values["isAdmin"] = isAdmin
 	session.Values["email"] = email

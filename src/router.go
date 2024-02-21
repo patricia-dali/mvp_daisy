@@ -71,6 +71,13 @@ func HandleRoutes(mux *http.ServeMux, db *sql.DB, store *sessions.CookieStore) {
 	})
 	mux.Handle("/users", AdminAuthMiddleware(usersHandlerFunc, store))
 
+	mux.HandleFunc("/delete", func(w http.ResponseWriter, r *http.Request) {
+		users.DeleteUserHandler(w, r, db)
+	})
+	mux.HandleFunc("/update", func(w http.ResponseWriter, r *http.Request) {
+		users.UpdateUserHandler(w, r, db)
+	})
+
 	mux.HandleFunc("/reset-password", resetPassword.ShowResetPage)
 	mux.HandleFunc("/send-reset-email", resetPassword.SendResetEmailHandler)
 

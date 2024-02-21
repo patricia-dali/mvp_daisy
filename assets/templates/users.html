@@ -3,28 +3,44 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/style.css">
     <title>Lista de Usuários</title>
 </head>
-<body>
+<body class="min-h-screen w-full">
 
 <h1>Lista de Usuários</h1>
+<p><a href="./index" class="no-underline font-semibold">Página inicial</a></p>
 
 <ul>
     {{range .}}
         <li>
-            {{.ID}} - {{.Username}} - {{.Email}} - {{.Admin}}
+            {{.Username}} - {{.Email}} - 
+            {{if .Admin}}
+                Administrador
+            {{else}}
+                Usuário
+            {{end}}
             <form action="/update" method="post">
                 <input type="hidden" name="id" value="{{.ID}}">
-                <input type="text" name="newUsername" placeholder="Novo nome">
-                <input type="checkbox" name="newAdmin">
-                <button type="submit">Atualizar</button>
+                <label for="username">Nome de usuário:</label>
+                <input type="text" id="username" name="username" value="{{.Username}}" required><br>
+                <label for="admin">Administrador:</label>
+                <input type="checkbox" id="admin" name="admin" {{if .Admin}}checked{{end}}><br>
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" value="{{.Email}}" required><br>
+                <input type="submit" value="Atualizar">
             </form>
-            <form action="/delete" method="post">
-                <input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit">Excluir</button>
-            </form>
+            {{if not .Admin}}
+                <form action="/delete" method="post">
+                    <input type="hidden" name="id" value="{{.ID}}">
+                    <button type="submit">Excluir</button>
+                </form>
+            {{end}}
         </li>
     {{end}}
 </ul>
