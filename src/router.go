@@ -66,7 +66,9 @@ func HandleRoutes(mux *http.ServeMux, db *sql.DB, store *sessions.CookieStore) {
 
 	mux.HandleFunc("/cadastro", cadastro.ShowCadastroPage)
 
-	usersHandlerFunc := http.HandlerFunc(users.ShowUsersPage)
+	usersHandlerFunc := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		users.ShowUsersPage(w, r, db)
+	})
 	mux.Handle("/users", AdminAuthMiddleware(usersHandlerFunc, store))
 
 	mux.HandleFunc("/reset-password", resetPassword.ShowResetPage)

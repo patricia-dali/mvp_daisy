@@ -11,15 +11,14 @@
 
 <h1>Lista de Usuários</h1>
 
-<!-- Lista de usuários -->
 <ul>
     {{range .}}
         <li>
-            {{.Username}} - {{.Email}}
+            {{.ID}} - {{.Username}} - {{.Email}} - {{.Admin}}
             <form action="/update" method="post">
                 <input type="hidden" name="id" value="{{.ID}}">
-                <input type="text" name="newName" placeholder="Novo nome">
-                <input type="text" name="newEmail" placeholder="Novo e-mail">
+                <input type="text" name="newUsername" placeholder="Novo nome">
+                <input type="checkbox" name="newAdmin">
                 <button type="submit">Atualizar</button>
             </form>
             <form action="/delete" method="post">
@@ -29,8 +28,6 @@
         </li>
     {{end}}
 </ul>
-
-<!-- Adicione um formulário para adicionar novos usuários se necessário -->
 
 </body>
 </html>
