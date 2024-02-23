@@ -12,23 +12,23 @@
 </head>
 
 <body class="min-h-screen w-full">
-    <div class="user-info flex justify-between w-[180px] p-2 h-auto text-white right-4 top-4 fixed bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[8px] backdrop-blur-lg">
+    <div class="user-info flex justify-between w-auto p-2 h-auto text-white right-4 top-4 fixed bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[8px] backdrop-blur-lg">
         <div>
             <h1 class="capitalize font-semibold text-base">{{.Username}}</h1>
             {{ if .IsAdmin }}
-                <p class="text-sm user-role">Administrador</p>
-                <p><a href="./users" class="no-underline font-semibold">Gerenciar usuários</a></p>
-                <form action="/logout" method="post">
-                    <button class="text-sm hover-user-role hover:underline cursor-pointer">sair</button>
-                </form>
+            <p class="text-sm user-role">Administrador</p>
+            <form action="/logout" method="post">
+                <button class="text-sm hover-user-role hover:underline cursor-pointer">sair</button>
+            </form>
             {{ else }}
                 <p class="text-sm user-role">Usuário</p>
                 <form action="/logout" method="post">
                     <button class="text-sm hover-user-role hover:underline cursor-pointer">sair</button>
                 </form>
-            {{ end }}
+            {{ end }}            
+            <p><a href="./users" class="no-underline text-sm pr-4">Gerenciar usuários</a></p>
         </div>
-        <div class="text-5xl">
+        <div class="text-7xl">
             {{ if .IsAdmin }}
                 <iconify-icon icon="ri:admin-line"></iconify-icon>
             {{ else }}
