@@ -9,41 +9,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/assets/css/style.css">
-    <title>Lista de Usuários</title>
+    <title>Usuários</title>
 </head>
 <body class="min-h-screen w-full">
-
-<h1>Lista de Usuários</h1>
-<p><a href="./index" class="no-underline font-semibold">Página inicial</a></p>
-
-<ul>
-    {{range .}}
-        <li>
-            {{.Username}} - {{.Email}} - 
-            {{if .Admin}}
-                Administrador
-            {{else}}
-                Usuário
-            {{end}}
-            <form action="/update" method="post">
-                <input type="hidden" name="id" value="{{.ID}}">
-                <label for="username">Nome de usuário:</label>
-                <input type="text" id="username" name="username" value="{{.Username}}" required><br>
-                <label for="admin">Administrador:</label>
-                <input type="checkbox" id="admin" name="admin" {{if .Admin}}checked{{end}}><br>
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" value="{{.Email}}" required><br>
-                <input type="submit" value="Atualizar">
-            </form>
-            {{if not .Admin}}
-                <form action="/delete" method="post">
-                    <input type="hidden" name="id" value="{{.ID}}">
-                    <button type="submit">Excluir</button>
-                </form>
-            {{end}}
-        </li>
-    {{end}}
-</ul>
-
+    
+    <section class="p-10">
+        <div class="flex justify-between">
+            <p><a href="./index" class="hover:underline cursor-pointer font-semibold text-base text-white"><iconify-icon icon="mdi:arrow" class="-scale-x-100 pl-2"></iconify-icon>Página inicial</a></p> 
+            <h1 class="text-3xl text-white text-center">Lista de Usuários</h1>
+            <p></p>
+        </div>        
+        <div class="relative top-8">
+            <div class="flex justify-center items-center w-full bg-center bg-cover text-white">
+                <ul>
+                    {{range .}}
+                        <li class="flex mb-10 border-2 rounded-[10px] px-8 py-4 border-opacity-50 backdrop-blur-lg">                             
+                            {{if .Admin}}
+                                <iconify-icon class="text-3xl pr-2" icon="ri:admin-line"></iconify-icon>
+                            {{else}}
+                                <iconify-icon class="text-3xl pr-2" icon="ri:user-line"></iconify-icon>
+                            {{end}}
+                            <form action="/update" method="post" class="flex">
+                                <input type="hidden" name="id" value="{{.ID}}">
+                                <label class="pt-2" for="username">Nome de usuário:</label>
+                                <input class="px-5 mr-5 border-b-2 border-white bg-transparent border-0 text-[1em] text-white" type="text" id="username" name="username" value="{{.Username}}" required><br>                                
+                                <div class="flex">
+                                    <p class="pt-2">Administrador</p>
+                                    <label class="switch ml-2 mr-5 mt-2">
+                                        <input type="checkbox" id="admin" name="admin" {{if .Admin}}checked{{end}}>
+                                        <span class="slider round"></span>
+                                      </label>                                    
+                                </div>
+                                <label class="pt-2" for="email">E-mail:</label>
+                                <input class="px-5 mr-5 border-b-2 border-white bg-transparent border-0 text-[1em] text-white w-[250px]" type="email" id="email" name="email" value="{{.Email}}" required><br>
+                                <input class="px-5 mr-5 rounded-[40px] bg-white border-0 outline-0 cursor-pointer text-[1em] font-semibold text-black" type="submit" value="Atualizar">
+                                
+                                {{if not .Admin}}
+                                <form action="/delete" method="post">
+                                    <input type="hidden" name="id" value="{{.ID}}">
+                                    <button type="submit" class="px-5 mr-5 rounded-[40px] bg-white border-0 outline-0 cursor-pointer text-[1em] font-semibold text-black">Excluir</button>
+                                </form>
+                                {{end}}
+                            </form>
+                        </li>
+                        {{end}}
+                    </ul>
+            </div>
+        </div>        
+    </section>
 </body>
+<style>
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 19px;
+    }
+    
+    .switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: transparent;
+      backdrop-filter: blur(64px);
+      border:solid 1px rgba(0, 0, 0, 0.41);
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 1px;
+      bottom: 1px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px #2196F3;
+    }
+    
+    input:checked + .slider:before {
+      -webkit-transform: translateX(21px);
+      -ms-transform: translateX(21px);
+      transform: translateX(21px);
+    }
+    
+    .slider.round {
+      border-radius: 34px;
+    }
+    
+    .slider.round:before {
+      border-radius: 50%;
+    }
+    </style>
 </html>
