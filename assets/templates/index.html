@@ -25,16 +25,20 @@
                 <form action="/logout" method="post">
                     <button class="text-sm hover-user-role hover:underline cursor-pointer">sair</button>
                 </form>
-            {{ end }}            
+            {{ end }}     
+            {{ if .IsAdmin }}       
             <p><a href="./users" class="no-underline text-sm pr-4">Gerenciar usuários</a></p>
-        </div>
-        <div class="text-7xl">
-            {{ if .IsAdmin }}
-                <iconify-icon icon="ri:admin-line"></iconify-icon>
-            {{ else }}
-                <iconify-icon icon="ri:user-line"></iconify-icon>
             {{ end }}
         </div>
+            {{ if .IsAdmin }}
+            <div class="text-7xl">
+                <iconify-icon icon="ri:admin-line"></iconify-icon>  
+            </div>
+            {{ else }}
+            <div class="text-5xl pl-4">
+                <iconify-icon icon="ri:user-line"></iconify-icon>
+            </div>
+            {{ end }}
     </div>
 
     <form hx-target="#resposta" class="absolute top-3 left-16">

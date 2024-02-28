@@ -9,7 +9,6 @@ import (
 	"exemplo.com/database"
 	"exemplo.com/router"
 	"github.com/gorilla/sessions"
-	"github.com/joho/godotenv"
 )
 
 var sessionKey = ""
@@ -39,10 +38,8 @@ func main() {
 }
 
 func init() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
 	sessionKey = os.Getenv("SESSION_KEY")
+	if sessionKey == "" {
+		log.Fatal("SESSION_KEY not set in environment")
+	}
 }
