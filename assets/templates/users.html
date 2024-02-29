@@ -31,8 +31,11 @@
                             {{end}}
                             <form action="/update" method="post" class="flex">
                                 <input type="hidden" name="id" value="{{.ID}}">
-                                <label class="pt-2" for="username">Nome de usuário:</label>
+                                <label class="pt-2" for="username">Usuário:</label>
                                 <input class="px-5 mr-5 border-b-2 border-white bg-transparent border-0 text-[1em] text-white" type="text" id="username" name="username" value="{{.Username}}" required><br>                                
+                                <div class="flex">
+                                <label class="pt-2" for="username">Telefone:</label>
+                                <input class="px-5 mr-5 border-b-2 border-white bg-transparent border-0 text-[1em] text-white" type="tel" id="phone" name="phone" value="{{.FormattedPhone}}" required><br>                                
                                 <div class="flex">
                                     <p class="pt-2">Administrador</p>
                                     <label class="switch ml-2 mr-5 mt-2">

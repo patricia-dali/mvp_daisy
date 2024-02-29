@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"regexp"
 	"text/template"
 
 	"golang.org/x/crypto/bcrypt"
@@ -28,6 +29,10 @@ func Cadastro(w http.ResponseWriter, r *http.Request, db *sql.DB) error {
 	usernameInput := r.FormValue("username")
 	passwordInput := r.FormValue("password")
 	emailInput := r.FormValue("email")
+
+	// Limpar o valor do campo phoneInput
+	phoneInput := cleanPhoneNumber(r.FormValue("phone"))
+
 	salt := generateSalt()
 
 	passwordWithSalt := []byte(passwordInput + salt)
@@ -37,7 +42,7 @@ func Cadastro(w http.ResponseWriter, r *http.Request, db *sql.DB) error {
 		return err
 	}
 
-	_, err = db.Exec("INSERT INTO users (username, password, email, salt, admin) VALUES ($1, $2, $3, $4, $5)", usernameInput, hashedPassword, emailInput, salt, isAdmin)
+	_, err = db.Exec("INSERT INTO users (username, password, phone, email, salt, admin) VALUES ($1, $2, $3, $4, $5, $6)", usernameInput, hashedPassword, phoneInput, emailInput, salt, isAdmin)
 
 	if err != nil {
 		return err
@@ -55,4 +60,11 @@ func generateSalt() string {
 		log.Fatal(err)
 	}
 	return fmt.Sprintf("%x", salt)
+}
+
+func cleanPhoneNumber(phone string) string {
+	// Remover espaços, parênteses e caracteres não numéricos
+	re := regexp.MustCompile("[^0-9]")
+	cleaned := re.ReplaceAllString(phone, "")
+	return cleaned
 }

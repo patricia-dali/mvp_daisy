@@ -11,10 +11,12 @@ import (
 )
 
 type User struct {
-	ID       int
-	Username string
-	Admin    bool
-	Email    string
+	ID             int
+	Username       string
+	Admin          bool
+	Email          string
+	Phone          string
+	FormattedPhone string
 }
 
 var store = sessions.NewCookieStore([]byte("chave-secreta"))
@@ -56,7 +58,7 @@ func ShowUsersPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 }
 
 func getAllUsers(db *sql.DB, loggedInUserID int) ([]User, error) {
-	rows, err := db.Query("SELECT id, username, admin, email FROM users WHERE id != $1", loggedInUserID)
+	rows, err := db.Query("SELECT id, username, admin, email, phone FROM users WHERE id != $1", loggedInUserID)
 	if err != nil {
 		return nil, err
 	}
@@ -65,10 +67,13 @@ func getAllUsers(db *sql.DB, loggedInUserID int) ([]User, error) {
 	var users []User
 	for rows.Next() {
 		var user User
-		err := rows.Scan(&user.ID, &user.Username, &user.Admin, &user.Email)
+		err := rows.Scan(&user.ID, &user.Username, &user.Admin, &user.Email, &user.Phone)
 		if err != nil {
 			return nil, err
 		}
+
+		user.FormattedPhone = formatPhoneNumber(user.Phone)
+
 		users = append(users, user)
 	}
 
@@ -150,9 +155,10 @@ func UpdateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		username := r.FormValue("username")
 		admin := r.FormValue("admin") == "on"
 		email := r.FormValue("email")
+		phone := r.FormValue("phone")
 
 		updateUser := func() error {
-			_, err := db.Exec("UPDATE users SET username=$1, admin=$2, email=$3 WHERE id=$4", username, admin, email, userID)
+			_, err := db.Exec("UPDATE users SET username=$1, admin=$2, email=$3, phone=$4 WHERE id=$5", username, admin, email, phone, userID)
 			return err
 		}
 
@@ -170,6 +176,13 @@ func UpdateUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 
 func getUserByID(db *sql.DB, userID int) (User, error) {
 	var user User
-	err := db.QueryRow("SELECT id, username, admin, email FROM users WHERE id = $1", userID).Scan(&user.ID, &user.Username, &user.Admin, &user.Email)
+	err := db.QueryRow("SELECT id, username, admin, email, phone FROM users WHERE id = $1", userID).Scan(&user.ID, &user.Username, &user.Admin, &user.Email, &user.Phone)
 	return user, err
+}
+
+func formatPhoneNumber(phone string) string {
+	if len(phone) != 11 {
+		return phone
+	}
+	return fmt.Sprintf("(%s) %s %s-%s", phone[:2], phone[2:3], phone[3:7], phone[7:])
 }
