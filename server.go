@@ -28,10 +28,14 @@ func main() {
 
 	newMux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 
-	SERVER_PORT := 8080
+	SERVER_PORT := ":3000"
 
-	fmt.Printf("Servidor rodando em http://localhost:%d\n", SERVER_PORT)
-	err = http.ListenAndServe(fmt.Sprintf(":%d", SERVER_PORT), newMux)
+	if os.Getenv("PORT") != "" {
+		SERVER_PORT = "0.0.0.0:" + os.Getenv("PORT")
+	}
+
+	fmt.Printf("Servidor rodando em http://localhost:%s\n", SERVER_PORT)
+	err = http.ListenAndServe((SERVER_PORT), newMux)
 	if err != nil {
 		fmt.Println("Erro ao iniciar o servidor:", err)
 	}
