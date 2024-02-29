@@ -13,6 +13,13 @@ import (
 
 var sessionKey = ""
 
+func envPortOr(port string) string {
+	if envPort := os.Getenv("PORT"); envPort != "" {
+		return ":" + envPort
+	}
+	return ":" + port
+}
+
 func main() {
 	db, err := database.SetupDatabase()
 	if err != nil {
@@ -28,14 +35,10 @@ func main() {
 
 	newMux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
 
-	SERVER_PORT := ":3000"
+	var port = envPortOr("3000")
 
-	if os.Getenv("PORT") != "" {
-		SERVER_PORT = "0.0.0.0:" + os.Getenv("PORT")
-	}
-
-	fmt.Printf("Servidor rodando em http://localhost:%s\n", SERVER_PORT)
-	err = http.ListenAndServe((SERVER_PORT), newMux)
+	fmt.Printf("Servidor rodando em http://localhost:%s\n", port)
+	err = http.ListenAndServe(port, newMux)
 	if err != nil {
 		fmt.Println("Erro ao iniciar o servidor:", err)
 	}
