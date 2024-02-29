@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	_ "github.com/lib/pq"
 )
 
 var (
 	dbHost     = ""
-	dbPort     = 5432
+	dbPort     = 0
 	dbUser     = ""
 	dbPassword = ""
 	dbName     = ""
@@ -30,7 +31,7 @@ func SetupDatabase() (*sql.DB, error) {
 	err = db.Ping()
 	if err != nil {
 		db.Close()
-		log.Printf("Error pinging database: %v", err)
+		log.Printf("Erro ao pingar o banco de dados: %v", err)
 		return nil, err
 	}
 
@@ -39,9 +40,18 @@ func SetupDatabase() (*sql.DB, error) {
 }
 
 func init() {
-
 	dbHost = os.Getenv("DB_HOST")
 	dbUser = os.Getenv("DB_USER")
 	dbPassword = os.Getenv("DB_PASSWORD")
 	dbName = os.Getenv("DB_NAME")
+
+	portStr := os.Getenv("DB_PORT")
+	if portStr != "" {
+		port, err := strconv.Atoi(portStr)
+		if err == nil {
+			dbPort = port
+		} else {
+			log.Printf("Erro ao converter a porta do banco de dados para int: %v", err)
+		}
+	}
 }
