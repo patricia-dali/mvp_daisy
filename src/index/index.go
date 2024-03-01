@@ -23,7 +23,7 @@ type Produto struct {
 func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	store := sessions.NewCookieStore([]byte("chave-secreta"))
 	pergunta := r.FormValue("pergunta")
-	parametro := "Vou te passar o nome da minha tabela, as colunas e quero que voce mostre como seria uma consulta sql nela, mas sem quebra de linha somente o texto sem formatação e somente a consulta SQL, sem informações adicionais ou frases que não seja a consulta SQL. nome da tabela: mercado, colunas: nome, preco, quantidade e vendido."
+	parametro := "Vou te passar o nome da minha tabela, as colunas e quero que voce mostre como seria uma consulta sql nela, mas sem quebra de linha somente o texto sem formatação e somente a consulta SQL, sem informações adicionais ou frases que não seja a consulta SQL. nome da tabela: produtos, colunas: nome, preco, quantidade e vendido."
 	var respostaAI string
 	var tempoDeResposta time.Duration
 	var err error
@@ -104,7 +104,7 @@ func questionDB(db *sql.DB, isAdmin bool, response string) ([]map[string]interfa
 	if isAdmin {
 		query = response
 	} else {
-		query = "SELECT * FROM mercado"
+		query = "SELECT * FROM produtos"
 	}
 
 	rows, err := db.Query(query)
