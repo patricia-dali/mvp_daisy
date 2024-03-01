@@ -36,7 +36,7 @@
                 <input type="hidden" name="id" value="{{.ID}}">
                 <label class="lg:pt-2 pr-2 lg:pr-0" for="username">Usuário:</label>
                 <input class="lg:px-5 pl-1 lg:mr-5 border-b-2 border-white bg-transparent border-0 text-[1em] text-white w-full"
-                  type="text" id="username" name="username" value="{{.Username}}" required><br>
+                  type="text" id="username" name="username" value="{{.Username}}" required oninput="formatUsername()"><br>
             </div>
             <div class="lg:flex">
               <label class="lg:pt-2" for="username">Telefone:</label>
@@ -76,6 +76,12 @@
     </div>
   </section>
 </body>
+<Script>
+     function formatUsername() {
+        var usernameInput = document.getElementById('username');
+        usernameInput.value = usernameInput.value.toLowerCase();
+    }
+</Script>
 <style>
   .switch {
     position: relative;

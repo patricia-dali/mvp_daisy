@@ -17,7 +17,7 @@
                     <h2 class="text-3xl text-white text-center">Cadastre-se</h2>
                     <div class="relative my-8 w-80 border-b-2 border-white">
                         <iconify-icon class="absolute right-2 text-white text-[1.2em] top-5" icon="mdi:user-outline"></iconify-icon>
-                        <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] lg:px-5 md:pl-0 md:pr-35 text-white" type="text" id="username" name="username" required>
+                        <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] lg:px-5 md:pl-0 md:pr-35 text-white" type="text" id="username" name="username" required oninput="formatUsername()">
                         <label class="foco absolute top-2/4 left-0.5 text-white text-[1em] pointer-events-none transition duration-500" for="username">Usuário</label>
                     </div>
                     <div class="relative my-8 w-80 border-b-2 border-white">
@@ -101,6 +101,11 @@
             }
         });
     });
+
+    function formatUsername() {
+        var usernameInput = document.getElementById('username');
+        usernameInput.value = usernameInput.value.toLowerCase();
+    }
 
     function togglePasswordVisibility() {
         var passwordInput = document.getElementById('password');
