@@ -1,9 +1,14 @@
 body {
-    background: url(/assets/imagens/bg.jpg)no-repeat;
-    background-position: center;
-    background-size: cover;
+  background: url(/assets/imagens/bg-light.jpg) no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
+@media (prefers-color-scheme: dark) {
+  body {
+      background: url(/assets/imagens/bg-dark.jpg) no-repeat;
+  }
+}
 .foco {
     transform: translateY(-50%);
 }
