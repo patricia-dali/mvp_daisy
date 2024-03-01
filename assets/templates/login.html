@@ -5,11 +5,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.min.js"></script>
+    <script src="/assets/js/script.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Login</title>
 </head>
 <body>
+    <div class="theme-toggle">
+        <button onclick="toggleTheme()">Trocar Tema</button>
+    </div>
     <h1>{{.flash_message}}</h1>
     <section class="flex justify-center mx-auto lg:mx-0 items-center min-h-screen w-10/12 lg:w-full bg-center bg-cover">
         <div class="flex relative w-auto lg:w-[400px] h-[450px] p-8 bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[20px] backdrop-blur-lg justify-center items-center">
@@ -42,6 +47,10 @@
     </section>
 </body>
 <script>
+    function toggleTheme() {
+        const body = document.body;
+        body.classList.toggle('dark-mode');
+    }
     document.addEventListener('DOMContentLoaded', function () {
         function getCookie(name) {
             const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
