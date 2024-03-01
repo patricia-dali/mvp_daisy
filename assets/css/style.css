@@ -4,10 +4,12 @@ body {
   background-size: cover;
 }
 
-body.dark-mode {
-  background: url(/assets/imagens/bg-dark.jpg) no-repeat;
-  background-position: center;
-  background-size: cover;
+@media (prefers-color-scheme: dark) {
+  body {
+      background: url(/assets/imagens/bg-dark.jpg) no-repeat;
+      background-position: center;
+      background-size: cover;
+  }
 }
 
 .foco {
@@ -46,4 +48,18 @@ select:-webkit-autofill:focus {
   -webkit-text-fill-color: white !important;
   -webkit-box-shadow: 0 0 0px 1000px transparent inset;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+.theme-toggle button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.theme-toggle button iconify-icon {
+  display: inline;
+}
+
+.theme-toggle button iconify-icon.icon-off {
+  display: none;
 }
