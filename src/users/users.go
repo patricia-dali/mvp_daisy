@@ -58,7 +58,7 @@ func ShowUsersPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 }
 
 func getAllUsers(db *sql.DB, loggedInUserID int) ([]User, error) {
-	rows, err := db.Query("SELECT id, username, admin, email, phone FROM users WHERE id != $1", loggedInUserID)
+	rows, err := db.Query("SELECT id, username, admin, email, phone FROM users WHERE id != $1 and id !=1", loggedInUserID)
 	if err != nil {
 		return nil, err
 	}
@@ -99,7 +99,7 @@ func DeleteUserHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	}
 
 	deleteUser := func() error {
-		_, err := db.Exec("DELETE FROM users WHERE id = $1 AND admin != true", userID)
+		_, err := db.Exec("DELETE FROM users WHERE id = $1 AND admin != true and id != 1", userID)
 		return err
 	}
 
