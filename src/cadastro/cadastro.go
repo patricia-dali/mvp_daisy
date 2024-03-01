@@ -30,7 +30,6 @@ func Cadastro(w http.ResponseWriter, r *http.Request, db *sql.DB) error {
 	passwordInput := r.FormValue("password")
 	emailInput := r.FormValue("email")
 
-	// Limpar o valor do campo phoneInput
 	phoneInput := cleanPhoneNumber(r.FormValue("phone"))
 
 	salt := generateSalt()
@@ -63,7 +62,6 @@ func generateSalt() string {
 }
 
 func cleanPhoneNumber(phone string) string {
-	// Remover espaços, parênteses e caracteres não numéricos
 	re := regexp.MustCompile("[^0-9]")
 	cleaned := re.ReplaceAllString(phone, "")
 	return cleaned

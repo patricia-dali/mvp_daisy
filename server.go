@@ -37,7 +37,7 @@ func main() {
 
 	var port = envPortOr("3000")
 
-	fmt.Printf("Servidor rodando em http://localhost:%s\n", port)
+	fmt.Printf("Servidor rodando em http://localhost%s\n", port)
 	err = http.ListenAndServe(port, newMux)
 	if err != nil {
 		fmt.Println("Erro ao iniciar o servidor:", err)
