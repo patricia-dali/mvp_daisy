@@ -10,29 +10,29 @@
     <title>Cadastro</title>
 </head>
 <body>
-    <section class="flex justify-center items-center min-h-screen w-full bg-center bg-cover">
-        <div class=" flex relative w-[400px] h-auto bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[20px] backdrop-blur-lg justify-center items-center">
+    <section class="flex justify-center mx-auto lg:mx-0 items-center min-h-screen w-10/12 lg:w-full bg-center bg-cover">
+        <div class="flex relative w-auto lg:w-[400px] p-8 h-auto bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[20px] backdrop-blur-lg justify-center items-center">
             <div>
                 <form action="/save" method="post" class="my-10">
                     <h2 class="text-3xl text-white text-center">Cadastre-se</h2>
                     <div class="relative my-8 w-80 border-b-2 border-white">
                         <iconify-icon class="absolute right-2 text-white text-[1.2em] top-5" icon="mdi:user-outline"></iconify-icon>
-                        <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] px-5 md:pl-0 md:pr-35 text-white" type="text" id="username" name="username" required>
+                        <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] lg:px-5 md:pl-0 md:pr-35 text-white" type="text" id="username" name="username" required>
                         <label class="foco absolute top-2/4 left-0.5 text-white text-[1em] pointer-events-none transition duration-500" for="username">Usuário</label>
                     </div>
                     <div class="relative my-8 w-80 border-b-2 border-white">
                         <iconify-icon class="absolute right-2 text-white text-[1.2em] top-5" icon="ion:lock-closed-outline"></iconify-icon>
-                        <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] px-5 md:pl-0 md:pr-35 text-white" type="password" id="password" name="password" required>
+                        <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] lg:px-5 md:pl-0 md:pr-35 text-white" type="password" id="password" name="password" required>
                         <label class="foco absolute top-2/4 left-0.5  text-white text-[1em] pointer-events-none transition duration-500" for="password">Senha</label>
                     </div>
                     <div class="relative my-8 w-80 border-b-2 border-white">
                         <iconify-icon class="absolute right-2 text-white text-[1.2em] top-5" icon="ion:mail-outline"></iconify-icon>
-                        <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] px-5 md:pl-0 md:pr-35 text-white" type="email" id="email" name="email" required>
+                        <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] lg:px-5 md:pl-0 md:pr-35 text-white" type="email" id="email" name="email" required>
                         <label class="foco absolute top-2/4 left-0.5  text-white text-[1em] pointer-events-none transition duration-500" for="email">E-mail</label>
                     </div>
                     <div class="relative my-8 w-80 border-b-2 border-white">
                         <iconify-icon class="absolute right-2 text-white text-[1.2em] top-5" icon="ph:phone"></iconify-icon>
-                        <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] px-5 md:pl-0 md:pr-35 text-white" type="tel" id="phone" name="phone" required>
+                        <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] lg:px-5 md:pl-0 md:pr-35 text-white" type="tel" id="phone" name="phone" required>
                         <label class="foco absolute top-2/4 left-0.5  text-white text-[1em] pointer-events-none transition duration-500" for="phone">Telefone</label>
                     </div>
                     <div class="text-[1em] text-white flex mb-15 pl-0.5 pr-3 ">
@@ -54,5 +54,30 @@
         
         usernameInput.focus();
     });
+    document.addEventListener('DOMContentLoaded', function() {
+          var phoneInput = document.getElementById('phone');
+          
+          phoneInput.addEventListener('input', function() {
+              var phoneNumber = phoneInput.value.replace(/\D/g, '');
+
+              phoneNumber = phoneNumber.substring(0, 11);
+
+              if (phoneNumber.length > 2) {
+                    phoneNumber = '(' + phoneNumber.substring(0, 2) + ')' + phoneNumber.substring(2);
+              }
+              if (phoneNumber.length > 5) {
+                    phoneNumber = phoneNumber.substring(0, 5) + ' ' + phoneNumber.substring(5);
+              }
+              if (phoneNumber.length > 10) {
+                    phoneNumber = phoneNumber.substring(0, 10) + '-' + phoneNumber.substring(10);
+              }
+
+              phoneInput.value = phoneNumber;
+          });
+
+          phoneInput.maxLength = 15;
+
+          phoneInput.focus();
+      });
 </script>
 </html>

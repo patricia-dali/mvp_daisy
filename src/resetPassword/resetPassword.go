@@ -17,7 +17,7 @@ import (
 var db *sql.DB
 
 const tokenSecret = "sua_chave_secreta_para_token"
-const resetPasswordURL = "http://localhost:8080/reset-password/token/"
+const resetPasswordURL = "http://localhost:3000/reset-password/token/"
 
 func ShowResetPage(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("./assets/templates/resetPassword.html")

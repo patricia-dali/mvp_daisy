@@ -12,7 +12,7 @@
 </head>
 
 <body class="min-h-screen w-full">
-    <div class="user-info flex justify-between w-auto p-2 h-auto text-white right-4 top-4 fixed bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[8px] backdrop-blur-lg">
+    <div class="user-info flex justify-between w-auto p-2 h-auto text-white right-4 top-4 mt-4 mr-4 lg:mt-0 lg:mt-0 lg:fixed absolute bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[8px] backdrop-blur-lg">
         <div>
             <h1 class="capitalize font-semibold text-base">{{.Username}}</h1>
             {{ if .IsAdmin }}
@@ -41,18 +41,18 @@
             {{ end }}
     </div>
 
-    <form hx-target="#resposta" class="absolute top-3 left-16">
-        <div class="relative my-8 w-[550px] border-b-2 border-white">
+    <form hx-target="#resposta" class="lg:absolute flex justify-center mx-auto mt-32 lg:mt-0 lg:top-3 lg:left-16">
+        <div class="relative my-8 lg:w-[550px] w-[90vw]  border-b-2 border-white">
             <button class="absolute right-2 text-white text-[1.2em] top-4" type="submit">
                 <iconify-icon icon="gg:search"></iconify-icon>
             </button>
-            <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] px-5 md:pl-0 md:pr-35 text-white"
+            <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] lg:px-5 pr-8 md:pl-0 md:pr-35 text-white"
                 type="text" id="pergunta" name="pergunta" required>
             <label class="foco absolute top-2/4 left-0.5 text-white text-[1em] pointer-events-none transition duration-500"
                 for="pergunta">Perguntar</label>
         </div>
     </form>
-    <div class="relative top-36">
+    <div class="relative lg:top-36">
     <section id="resposta" class="flex justify-center items-center w-full bg-center bg-cover">
         <div
             class=" flex relative w-auto h-auto bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[20px] backdrop-blur-lg justify-center items-center">
@@ -61,7 +61,7 @@
                     <thead class="h-9">
                         <tr class="border-b-2">
                     {{ range $key, $value := (index .Produtos 0) }}
-                    <th class="px-8">
+                    <th class="lg:px-8 px-2">
                             {{ $key }}
                         </th>
                     {{ end }}
@@ -71,7 +71,7 @@
                 {{ range .Produtos }}
                     <tr>
                         {{ range $value := . }}
-                        <td class="text-center px-8">{{ $value }}</td>
+                        <td class="text-center lg:px-8 px-2">{{ $value }}</td>
                         {{ end }}
                     </tr>
                 {{ end }}
