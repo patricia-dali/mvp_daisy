@@ -7,17 +7,29 @@ import (
 	"log"
 	"net/http"
 	"net/smtp"
+	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
 )
+
+type Token struct {
+	Value string
+}
 
 var db *sql.DB
 
 const tokenSecret = "sua_chave_secreta_para_token"
-const resetPasswordURL = "http://localhost:3000/reset-password/token/"
+
+var resetPasswordURL string
+
+func getResetPasswordURL() string {
+	if resetPasswordURL == "" {
+		resetPasswordURL = os.Getenv("LINK") + "/reset-password/token?token="
+	}
+	return resetPasswordURL
+}
 
 func ShowResetPage(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("./assets/templates/resetPassword.html")
@@ -47,7 +59,7 @@ func SendResetEmailHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resetLink := resetPasswordURL + tokenString
+	resetLink := getResetPasswordURL() + tokenString
 
 	err = sendEmail(email, resetLink)
 	if err != nil {
@@ -86,8 +98,8 @@ func sendEmail(to, resetLink string) error {
 }
 
 func ResetPasswordPage(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	tokenString := vars["token"]
+	tokenI := r.URL.Query().Get("token")
+	tokenString := tokenI
 	if tokenString == "" {
 		http.Error(w, "Token não fornecido", http.StatusBadRequest)
 		return
@@ -101,7 +113,8 @@ func ResetPasswordPage(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Token inválido", http.StatusUnauthorized)
 		return
 	}
-
+	var tokenstr Token
+	tokenstr.Value = tokenI
 	tmpl, err := template.ParseFiles("./assets/templates/resetPasswordPage.html")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -121,12 +134,12 @@ func ResetPasswordPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, tokenstr)
 }
 
 func ResetPasswordHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
-	vars := mux.Vars(r)
-	tokenString := vars["token"]
+	tokenI := r.URL.Query().Get("token")
+	tokenString := tokenI
 	if tokenString == "" {
 		http.Error(w, "Token não fornecido", http.StatusBadRequest)
 		return
