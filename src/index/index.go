@@ -24,7 +24,7 @@ type Produto struct {
 func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	store := sessions.NewCookieStore([]byte("chave-secreta"))
 	pergunta := r.FormValue("pergunta")
-	parametro := "Eu tenho 4 tabelas no postgresSQL, produtos com as colunas(ID_PRODUTO, NOME_PRODUTO, CATEGORIA, FABRICANTE_FORNECEDOR, CODIGO_DE_BARRA, STATUS, VALOR_MAIOR, PRECO_MINIMO, ULTIMO_VALOR, MARKUP, QUANTIDADE_VENDIDO, VALOR_VENDIDO), tenho a tabela estoque com as colunas (ID_ESTOQUE, PRODUTO_ID, SALDO_TOTAL, SALDO_RESERVADO, SALDO_DISPONIVEL, PRECO_DE_CUSTO), tenho a tabela estabelecimentos com as colunas (id_estabelecimento, nome_do_cliente, valor_total, quantidade_total) e a tabela de relacionamento entre produtos e estabelcimentos com as colunas (ID_RELACIONAMENTO, ID_ESTABELECIMENTO, ID_PRODUTO). Sabendo que estoque é tabela filho de produtos e produtos e estabelecimentos tem uma tabela de relação, me mostre uma consulta sql de acordo com esses dados, sem quebra de linha, somente o comando sql para a pergunta abaixo (coloque todas as letras da consulta em maiusculas, e se não for nome da coluna, sempre faça a busca de algo proximo ao que foi perguntado, não precisa ser exato). NÃO TENHA QUEBRA DE LINHA NO COMANDO!!"
+	parametro := "Eu tenho 4 tabelas no postgresSQL,tabela 1:PRODUTOS com as colunas(ID_PRODUTO, NOME_PRODUTO, CATEGORIA, FABRICANTE_FORNECEDOR, CODIGO_DE_BARRA, STATUS, VALOR_MAIOR, PRECO_MINIMO, ULTIMO_VALOR, MARKUP, QUANTIDADE_VENDIDO, VALOR_VENDIDO), tabela 2:ESTOQUE com as colunas (ID_ESTOQUE, PRODUTO_ID, SALDO_TOTAL, SALDO_RESERVADO, SALDO_DISPONIVEL, PRECO_DE_CUSTO), tabela 3:ESTABELECIMENTOS com as colunas (id_estabelecimento, nome_do_cliente, valor_total, quantidade_total),  tabela 4:PRODUTOS_ESTABELECIMENTOS_RELACIONAMENTO que é uma tabela de relacionamento entre produtos e estabelecimentos com as colunas (ID_RELACIONAMENTO, ID_ESTABELECIMENTO, ID_PRODUTO). Sabendo que estoque é tabela filho de produtos e produtos e estabelecimentos tem uma tabela de relação, me mostre uma consulta sql de acordo com esses dados, sem quebra de linha, somente o comando sql para a pergunta abaixo (coloque todas as letras da consulta em maiusculas, e se não for nome da coluna, sempre faça a busca de algo proximo ao que foi perguntado, não precisa ser exato). NÃO TENHA QUEBRA DE LINHA NO COMANDO!!"
 	var respostaAI string
 	var tempoDeResposta time.Duration
 	var err error
@@ -35,11 +35,14 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		return
 	}
 
-	var produtos []map[string]interface{}
-
 	isAdmin, isAdminOK := session.Values["isAdmin"].(bool)
 	username, usernameOK := session.Values["username"].(string)
 	email, emailOK := session.Values["email"].(string)
+
+	if !isAdminOK || !usernameOK || !emailOK {
+		http.Error(w, "Erro ao obter dados da sessão", http.StatusInternalServerError)
+		return
+	}
 
 	data := struct {
 		Username        string
@@ -53,9 +56,9 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		Username:        username,
 		Email:           email,
 		IsAdmin:         isAdmin,
-		RespostaAI:      respostaAI,
-		TempoDeResposta: tempoDeResposta,
-		Produtos:        produtos,
+		RespostaAI:      "",
+		TempoDeResposta: 0,
+		Produtos:        nil,
 		Aviso:           "",
 	}
 
@@ -65,42 +68,28 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-	} else {
-		respostaAI = "Sem pergunta fornecida."
-	}
 
-	if !isAdminOK || !usernameOK || !emailOK {
-		http.Error(w, "Erro ao obter dados da sessão", http.StatusInternalServerError)
-		return
-	}
+		forbiddenWords := []string{"DROP", "TRUNCATE", "DELETE"}
+		for _, word := range forbiddenWords {
+			if strings.Contains(respostaAI, word) {
+				data.Aviso = "Operação proibida detectada: " + word
+				http.Error(w, "Operação proibida detectada", http.StatusForbidden)
+				return
+			}
+		}
 
-	forbiddenWords := []string{"DROP", "TRUNCATE", "DELETE"}
-	for _, word := range forbiddenWords {
-		if strings.Contains(respostaAI, word) {
-			data.Aviso = "Operação proibida detectada: " + word
-			http.Error(w, "Operação proibida detectada", http.StatusForbidden)
-			return
+		if respostaAI != "Sem pergunta fornecida." && respostaAI != "Não tenho resposta para essa pergunta." {
+			produtos, err := questionDB(db, isAdmin, respostaAI)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			data.Produtos = produtos
 		}
 	}
 
-	if respostaAI != "Sem pergunta fornecida." && respostaAI != "Não tenho resposta para essa pergunta." {
-		produtos, err = questionDB(db, isAdmin, respostaAI)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-	} else {
-		produtos, err = questionDB(db, isAdmin, "")
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-	}
-
-	if !isAdminOK || !usernameOK || !emailOK {
-		http.Error(w, "Erro ao obter dados da sessão", http.StatusInternalServerError)
-		return
-	}
+	data.RespostaAI = respostaAI
+	data.TempoDeResposta = tempoDeResposta
 
 	tmpl, err := template.ParseFiles("./assets/templates/index.html")
 	if err != nil {
