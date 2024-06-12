@@ -3,6 +3,7 @@ package index
 import (
 	"database/sql"
 	"net/http"
+	"strings"
 	"text/template"
 	"time"
 
@@ -23,10 +24,40 @@ type Produto struct {
 func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	store := sessions.NewCookieStore([]byte("chave-secreta"))
 	pergunta := r.FormValue("pergunta")
-	parametro := "Vou te passar o nome da minha tabela, as colunas e quero que voce mostre como seria uma consulta sql nela, mas sem quebra de linha somente o texto sem formatação e somente a consulta SQL, sem informações adicionais ou frases que não seja a consulta SQL. nome da tabela: produtos, colunas: id, nome, preco, quantidade e vendido."
+	parametro := "Eu tenho 4 tabelas no postgresSQL, produtos com as colunas(ID_PRODUTO, NOME_PRODUTO, CATEGORIA, FABRICANTE_FORNECEDOR, CODIGO_DE_BARRA, STATUS, VALOR_MAIOR, PRECO_MINIMO, ULTIMO_VALOR, MARKUP, QUANTIDADE_VENDIDO, VALOR_VENDIDO), tenho a tabela estoque com as colunas (ID_ESTOQUE, PRODUTO_ID, SALDO_TOTAL, SALDO_RESERVADO, SALDO_DISPONIVEL, PRECO_DE_CUSTO), tenho a tabela estabelecimentos com as colunas (id_estabelecimento, nome_do_cliente, valor_total, quantidade_total) e a tabela de relacionamento entre produtos e estabelcimentos com as colunas (ID_RELACIONAMENTO, ID_ESTABELECIMENTO, ID_PRODUTO). Sabendo que estoque é tabela filho de produtos e produtos e estabelecimentos tem uma tabela de relação, me mostre uma consulta sql de acordo com esses dados, sem quebra de linha, somente o comando sql para a pergunta abaixo (coloque todas as letras da consulta em maiusculas, e se não for nome da coluna, sempre faça a busca de algo proximo ao que foi perguntado, não precisa ser exato). NÃO TENHA QUEBRA DE LINHA NO COMANDO!!"
 	var respostaAI string
 	var tempoDeResposta time.Duration
 	var err error
+
+	session, err := store.Get(r, "user-session")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var produtos []map[string]interface{}
+
+	isAdmin, isAdminOK := session.Values["isAdmin"].(bool)
+	username, usernameOK := session.Values["username"].(string)
+	email, emailOK := session.Values["email"].(string)
+
+	data := struct {
+		Username        string
+		Email           string
+		IsAdmin         bool
+		RespostaAI      string
+		TempoDeResposta time.Duration
+		Produtos        []map[string]interface{}
+		Aviso           string
+	}{
+		Username:        username,
+		Email:           email,
+		IsAdmin:         isAdmin,
+		RespostaAI:      respostaAI,
+		TempoDeResposta: tempoDeResposta,
+		Produtos:        produtos,
+		Aviso:           "",
+	}
 
 	if pergunta != "" {
 		respostaAI, tempoDeResposta, err = openai.OpenAIResponse(pergunta, parametro)
@@ -38,22 +69,20 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		respostaAI = "Sem pergunta fornecida."
 	}
 
-	session, err := store.Get(r, "user-session")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	isAdmin, isAdminOK := session.Values["isAdmin"].(bool)
-	username, usernameOK := session.Values["username"].(string)
-	email, emailOK := session.Values["email"].(string)
-
 	if !isAdminOK || !usernameOK || !emailOK {
 		http.Error(w, "Erro ao obter dados da sessão", http.StatusInternalServerError)
 		return
 	}
 
-	var produtos []map[string]interface{}
+	forbiddenWords := []string{"DROP", "TRUNCATE", "DELETE"}
+	for _, word := range forbiddenWords {
+		if strings.Contains(respostaAI, word) {
+			data.Aviso = "Operação proibida detectada: " + word
+			http.Error(w, "Operação proibida detectada", http.StatusForbidden)
+			return
+		}
+	}
+
 	if respostaAI != "Sem pergunta fornecida." && respostaAI != "Não tenho resposta para essa pergunta." {
 		produtos, err = questionDB(db, isAdmin, respostaAI)
 		if err != nil {
@@ -79,22 +108,6 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		return
 	}
 
-	data := struct {
-		Username        string
-		Email           string
-		IsAdmin         bool
-		RespostaAI      string
-		TempoDeResposta time.Duration
-		Produtos        []map[string]interface{}
-	}{
-		Username:        username,
-		Email:           email,
-		IsAdmin:         isAdmin,
-		RespostaAI:      respostaAI,
-		TempoDeResposta: tempoDeResposta,
-		Produtos:        produtos,
-	}
-
 	tmpl.Execute(w, data)
 }
 
@@ -104,7 +117,7 @@ func questionDB(db *sql.DB, isAdmin bool, response string) ([]map[string]interfa
 	if isAdmin {
 		query = response
 	} else {
-		query = "SELECT * FROM produtos"
+		query = "SELECT * FROM produto"
 	}
 
 	rows, err := db.Query(query)

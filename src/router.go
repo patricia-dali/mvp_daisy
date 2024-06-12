@@ -88,15 +88,6 @@ func HandleRoutes(mux *http.ServeMux, db *sql.DB, store *sessions.CookieStore) {
 		resetPassword.ResetPasswordHandler(w, r, db)
 	})
 
-	/* 	mux.HandleFunc("/reset-password", func(w http.ResponseWriter, r *http.Request) {
-		token := r.URL.Query().Get("token")
-		if token == "" {
-			http.Error(w, "Token not provided", http.StatusBadRequest)
-			return
-		}
-		resetPassword.ResetPasswordPage(w, r, db, token)
-	}) */
-
 	mux.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		login.Login(w, r, db, store)
 	})
