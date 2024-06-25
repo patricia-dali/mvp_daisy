@@ -9,6 +9,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/assets/css/style.css">
     <title>Página inicial</title>
+    <style>
+        .p-4 {
+            padding: 1rem; 
+        }
+        .resposta {
+            overflow: auto; 
+            max-height: 400px; 
+            background-color: #333; 
+            padding: 1rem; 
+            border-radius: 8px; 
+        }
+        .resposta pre {
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+            color: white;
+        }
+    </style>
 </head>
 
 <body class="min-h-screen w-full bg-[#092121]">
@@ -66,9 +83,9 @@
                 <div class="p-4">
                     {{ if ne .RespostaAI "Sem pergunta fornecida." }}
                     {{ if ne .RespostaAI "Não tenho resposta para essa pergunta." }}
-                    <div>
+                    <div class="resposta">
                         <h2 class="text-white">Resposta:</h2>
-                        <pre class="text-white">{{.RespostaAI}}</pre>
+                        <pre>{{.RespostaAI}}</pre>
                     </div>
                     {{ end }}
                     {{ end }}
