@@ -152,7 +152,7 @@ func questionDB(db *sql.DB, isAdmin bool, response string) ([]map[string]interfa
 	if isAdmin {
 		query = response
 	} else {
-		query = "SELECT * FROM produto"
+		query = "SELECT * FROM PRODUTOS"
 	}
 
 	rows, err := db.Query(query)
