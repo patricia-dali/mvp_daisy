@@ -24,7 +24,47 @@ type Produto struct {
 func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	store := sessions.NewCookieStore([]byte("chave-secreta"))
 	pergunta := r.FormValue("pergunta")
-	parametro := "Eu tenho 4 tabelas no postgresSQL,tabela 1:PRODUTOS com as colunas(ID_PRODUTO, NOME_PRODUTO, CATEGORIA, FABRICANTE_FORNECEDOR, CODIGO_DE_BARRA, STATUS, VALOR_MAIOR, PRECO_MINIMO, ULTIMO_VALOR, MARKUP, QUANTIDADE_VENDIDO, VALOR_VENDIDO), tabela 2:ESTOQUE com as colunas (ID_ESTOQUE, PRODUTO_ID, SALDO_TOTAL, SALDO_RESERVADO, SALDO_DISPONIVEL, PRECO_DE_CUSTO), tabela 3:ESTABELECIMENTOS com as colunas (id_estabelecimento, nome_do_cliente, valor_total, quantidade_total),  tabela 4:PRODUTOS_ESTABELECIMENTOS_RELACIONAMENTO que é uma tabela de relacionamento entre produtos e estabelecimentos com as colunas (ID_RELACIONAMENTO, ID_ESTABELECIMENTO, ID_PRODUTO). Sabendo que ESTOQUE é tabela filho de PRODUTOS e PRODUTOS e ESTABELECIMENTOS tem uma tabela de relação chamada PRODUTOS_ESTABELECIMENTOS_RELACIONAMENTO, me mostre uma consulta sql de acordo com esses dados, sem quebra de linha, somente o comando sql para a pergunta abaixo (coloque todas as letras da consulta em maiusculas, e se não for nome da coluna, sempre faça a busca de algo proximo ao que foi perguntado, não precisa ser exato). NÃO TENHA QUEBRA DE LINHA NO COMANDO!!"
+	parametro := `O banco de dados possui quatro tabelas:
+					1. Tabela: PRODUTOS
+					- Colunas:
+						- ID_PRODUTO (INTEGER)
+						- NOME_PRODUTO (VARCHAR)
+						- CATEGORIA (VARCHAR)
+						- FABRICANTE_FORNECEDOR (VARCHAR)
+						- CODIGO_DE_BARRA (VARCHAR)
+						- STATUS (VARCHAR)
+						- VALOR_MAIOR (DECIMAL)
+						- PRECO_MINIMO (DECIMAL)
+						- ULTIMO_VALOR (DECIMAL)
+						- MARKUP (DECIMAL)
+						- QUANTIDADE_VENDIDO (INTEGER)
+						- VALOR_VENDIDO (DECIMAL)
+
+					2. Tabela: ESTOQUE
+					- Colunas:
+						- ID_ESTOQUE (INTEGER)
+						- PRODUTO_ID (INTEGER) - Referência para PRODUTOS(ID_PRODUTO)
+						- SALDO_TOTAL (INTEGER)
+						- SALDO_RESERVADO (INTEGER)
+						- SALDO_DISPONIVEL (INTEGER)
+						- PRECO_DE_CUSTO (DECIMAL)
+
+					3. Tabela: ESTABELECIMENTOS
+					- Colunas:
+						- ID_ESTABELECIMENTO (INTEGER)
+						- NOME_DO_CLIENTE (VARCHAR)
+						- VALOR_TOTAL (DECIMAL)
+						- QUANTIDADE_TOTAL (INTEGER)
+
+					4. Tabela: PRODUTOS_ESTABELECIMENTOS_RELACIONAMENTO
+					- Colunas:
+						- ID_RELACIONAMENTO (INTEGER)
+						- ID_ESTABELECIMENTO (INTEGER) - Referência para ESTABELECIMENTOS(ID_ESTABELECIMENTO)
+						- ID_PRODUTO (INTEGER) - Referência para PRODUTOS(ID_PRODUTO)
+
+					Mostre so a consulta SQL, sem quebra de linha e todas as letras maiúsculas.
+					Baseado nessa estrutura, aqui está uma pergunta:`
+
 	var respostaAI string
 	var tempoDeResposta time.Duration
 	var err error
@@ -63,7 +103,7 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	}
 
 	if pergunta != "" {
-		respostaAI, tempoDeResposta, err = openai.OpenAIResponse(pergunta, parametro)
+		respostaAI, tempoDeResposta, err = openai.OpenAIResponse(pergunta, parametro, "", nil)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -85,6 +125,12 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 				return
 			}
 			data.Produtos = produtos
+
+			respostaAI, tempoDeResposta, err = openai.OpenAIResponse("", "", respostaAI, produtos)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
 		}
 	}
 
