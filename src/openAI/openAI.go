@@ -54,7 +54,7 @@ func PrimeiraPergunta(pergunta string) (string, error) {
 						- ID_ESTABELECIMENTO (INTEGER) - Referência para ESTABELECIMENTOS(ID_ESTABELECIMENTO)
 						- ID_PRODUTO (INTEGER) - Referência para PRODUTOS(ID_PRODUTO)
 					
-					De acordo com as informações acima farei uma pergunta e se a pergunta for sobre o banco de dados ou qualquer coisa relacionada ao banco a resposta será 1, se não tiver relação com o banco a resposta será 2.
+					De acordo com as informações acima farei uma pergunta e se a pergunta for sobre o banco de dados, sobre produtos, preço de coisas ou qualquer coisa relacionada ao banco a resposta será 1, se não tiver relação com o banco a resposta será 2.
 					Responda somente os números 1 ou 2, nada mais.
 						`,
 		},
@@ -79,13 +79,14 @@ func PrimeiraPergunta(pergunta string) (string, error) {
 	return resp.Choices[len(resp.Choices)-1].Message.Content, nil
 }
 
-func ResponseAleatória(pergunta string, username string) (string, error) {
+func ResponseAleatoria(pergunta string, username string) (string, time.Duration, error) {
+	startTime := time.Now()
 	client := openai.NewClient(os.Getenv("CHAVE_OPENAI"))
 
 	messages := []openai.ChatCompletionMessage{
 		{
 			Role:    openai.ChatMessageRoleSystem,
-			Content: "Você é um assistente virtual chamado Daysi que ajuda o " + username + "em sua projeto",
+			Content: "Você é um assistente virtual chamado Daysi que ajuda o " + username + " em sua projeto.",
 		},
 	}
 
@@ -102,10 +103,13 @@ func ResponseAleatória(pergunta string, username string) (string, error) {
 		},
 	)
 
+	tempoDeResposta := time.Since(startTime)
+
 	if err != nil {
-		return "", fmt.Errorf("erro ao obter resposta do OpenAI: %v", err)
+		return "", 0, fmt.Errorf("erro ao obter resposta do OpenAI: %v", err)
 	}
-	return resp.Choices[len(resp.Choices)-1].Message.Content, nil
+
+	return resp.Choices[len(resp.Choices)-1].Message.Content, tempoDeResposta, nil
 }
 
 func ResponseBD(pergunta, parametro string, respostaAnterior string, results [][]interface{}) (string, time.Duration, error) {

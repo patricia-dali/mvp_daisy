@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"strconv"
 	"strings"
 	"text/template"
 	"time"
@@ -96,43 +97,56 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	}
 
 	if pergunta != "" {
-		answer, err := openai.PrimeiraPergunta(pergunta)
+		direcao, err := openai.PrimeiraPergunta(pergunta)
 		if err != nil {
 			http.Error(w, fmt.Sprintf("Erro ao obter resposta do OpenAI: %v", err), http.StatusInternalServerError)
 			return
 		}
-		fmt.Printf("Resposta do OpenAI: %s\n", answer)
 
-		respostaAI, tempoDeResposta, err = openai.ResponseBD(pergunta, parametro, "", nil)
+		num, err := strconv.Atoi(direcao)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			http.Error(w, "Erro ao converter número.", http.StatusInternalServerError)
 			return
 		}
 
-		forbiddenWords := []string{"DROP", "TRUNCATE", "DELETE"}
-		if !isAdmin {
-			forbiddenWords = append(forbiddenWords, "INSERT", "UPDATE")
-		}
-
-		for _, word := range forbiddenWords {
-			if strings.Contains(respostaAI, word) {
-				data.Aviso = "Operação proibida detectada: " + word
-				http.Error(w, "Operação proibida detectada", http.StatusForbidden)
-				return
-			}
-		}
-
-		if respostaAI != "Sem pergunta fornecida." && respostaAI != "Não tenho resposta para essa pergunta." {
-			results, err := questionDB(db, isAdmin, respostaAI)
+		if num == 1 {
+			respostaAI, tempoDeResposta, err = openai.ResponseBD(pergunta, parametro, "", nil)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			data.Results = results
 
-			respostaAI, tempoDeResposta, err = openai.ResponseBD("", "", respostaAI, results)
+			forbiddenWords := []string{"DROP", "TRUNCATE", "DELETE"}
+			if !isAdmin {
+				forbiddenWords = append(forbiddenWords, "INSERT", "UPDATE")
+			}
+
+			for _, word := range forbiddenWords {
+				if strings.Contains(respostaAI, word) {
+					data.Aviso = "Operação proibida detectada: " + word
+					http.Error(w, "Operação proibida detectada", http.StatusForbidden)
+					return
+				}
+			}
+
+			if respostaAI != "Sem pergunta fornecida." && respostaAI != "Não tenho resposta para essa pergunta." {
+				results, err := questionDB(db, isAdmin, respostaAI)
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+				data.Results = results
+
+				respostaAI, tempoDeResposta, err = openai.ResponseBD("", "", respostaAI, results)
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+			}
+		} else {
+			respostaAI, tempoDeResposta, err = openai.ResponseAleatoria(pergunta, username)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				http.Error(w, fmt.Sprintf("Erro ao obter resposta do OpenAI: %v", err), http.StatusInternalServerError)
 				return
 			}
 		}
