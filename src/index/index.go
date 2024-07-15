@@ -2,6 +2,7 @@ package index
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"strings"
 	"text/template"
@@ -12,14 +13,6 @@ import (
 )
 
 var db *sql.DB
-
-type Produto struct {
-	ID         int
-	Nome       string
-	Preco      float64
-	Quantidade int
-	Vendido    int
-}
 
 func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	store := sessions.NewCookieStore([]byte("chave-secreta"))
@@ -90,7 +83,7 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		IsAdmin         bool
 		RespostaAI      string
 		TempoDeResposta time.Duration
-		Produtos        []map[string]interface{}
+		Results         [][]interface{}
 		Aviso           string
 	}{
 		Username:        username,
@@ -98,18 +91,29 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		IsAdmin:         isAdmin,
 		RespostaAI:      "",
 		TempoDeResposta: 0,
-		Produtos:        nil,
+		Results:         nil,
 		Aviso:           "",
 	}
 
 	if pergunta != "" {
-		respostaAI, tempoDeResposta, err = openai.OpenAIResponse(pergunta, parametro, "", nil)
+		answer, err := openai.PrimeiraPergunta(pergunta)
+		if err != nil {
+			http.Error(w, fmt.Sprintf("Erro ao obter resposta do OpenAI: %v", err), http.StatusInternalServerError)
+			return
+		}
+		fmt.Printf("Resposta do OpenAI: %s\n", answer)
+
+		respostaAI, tempoDeResposta, err = openai.ResponseBD(pergunta, parametro, "", nil)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
 		forbiddenWords := []string{"DROP", "TRUNCATE", "DELETE"}
+		if !isAdmin {
+			forbiddenWords = append(forbiddenWords, "INSERT", "UPDATE")
+		}
+
 		for _, word := range forbiddenWords {
 			if strings.Contains(respostaAI, word) {
 				data.Aviso = "Operação proibida detectada: " + word
@@ -119,14 +123,14 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		}
 
 		if respostaAI != "Sem pergunta fornecida." && respostaAI != "Não tenho resposta para essa pergunta." {
-			produtos, err := questionDB(db, isAdmin, respostaAI)
+			results, err := questionDB(db, isAdmin, respostaAI)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			data.Produtos = produtos
+			data.Results = results
 
-			respostaAI, tempoDeResposta, err = openai.OpenAIResponse("", "", respostaAI, produtos)
+			respostaAI, tempoDeResposta, err = openai.ResponseBD("", "", respostaAI, results)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
@@ -146,14 +150,8 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	tmpl.Execute(w, data)
 }
 
-func questionDB(db *sql.DB, isAdmin bool, response string) ([]map[string]interface{}, error) {
-	var query string
-
-	if isAdmin {
-		query = response
-	} else {
-		query = "SELECT * FROM PRODUTOS LIMIT 5"
-	}
+func questionDB(db *sql.DB, isAdmin bool, response string) ([][]interface{}, error) {
+	query := response
 
 	rows, err := db.Query(query)
 	if err != nil {
@@ -166,7 +164,7 @@ func questionDB(db *sql.DB, isAdmin bool, response string) ([]map[string]interfa
 		return nil, err
 	}
 
-	var produtos []map[string]interface{}
+	var results [][]interface{}
 
 	for rows.Next() {
 		values := make([]interface{}, len(columns))
@@ -180,18 +178,8 @@ func questionDB(db *sql.DB, isAdmin bool, response string) ([]map[string]interfa
 			return nil, err
 		}
 
-		produto := make(map[string]interface{})
-
-		for i, col := range columns {
-			if dataBytes, ok := values[i].([]uint8); ok {
-				produto[col] = string(dataBytes)
-			} else {
-				produto[col] = values[i]
-			}
-		}
-
-		produtos = append(produtos, produto)
+		results = append(results, values)
 	}
 
-	return produtos, nil
+	return results, nil
 }

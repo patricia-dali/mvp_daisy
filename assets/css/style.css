@@ -7,6 +7,10 @@ input:valid ~ label{
     top: -5px
 }
 
+body{
+  background-color: black;
+}
+
 .user-info:hover .username,
 .user-info:hover .user-role {
   display: none;

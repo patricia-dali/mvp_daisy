@@ -2,40 +2,37 @@
 <html lang="pt-br">
 
 <head>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/assets/css/style.css">
     <title>Página inicial</title>
     <style>
         .p-4 {
-            padding: 1rem; 
+            padding: 1rem;
         }
+
         .resposta {
-            overflow: auto; 
-            max-height: 400px; 
-            background-color: #333; 
-            padding: 1rem; 
-            border-radius: 8px; 
+            overflow: auto;
+            max-height: 400px;
+            background-color: #333;
+            padding: 1rem;
+            border-radius: 8px;
         }
+
         .resposta pre {
-            white-space: pre-wrap; 
-            word-wrap: break-word; 
+            white-space: pre-wrap;
+            word-wrap: break-word;
             color: white;
         }
     </style>
 </head>
 
-<body class="min-h-screen w-full bg-[#092121]">
-    {{ if ne .Aviso "" }}
-    <div class="alert alert-danger" role="alert">
-        {{ .Aviso }}
-    </div>
-    {{ end }}
+<body class="min-h-screen w-full">
     <div
-        class="user-info flex justify-between w-auto p-2 h-auto text-white right-4 top-4 mt-4 mr-4 lg:mt-0 lg:mt-0 lg:fixed absolute bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[8px] backdrop-blur-lg">
+        class="user-info flex justify-between w-auto p-2 h-auto text-white right-4 top-4 mt-4 mr-4 lg:mt-0 lg:fixed absolute bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[8px] backdrop-blur-lg">
         <div>
             <h1 class="capitalize font-semibold text-base">{{.Username}}</h1>
             {{ if .IsAdmin }}
