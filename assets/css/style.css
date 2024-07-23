@@ -1,41 +1,79 @@
-.foco {
-    transform: translateY(-50%);
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+
+.web {
+  width: -webkit-fill-available;
 }
 
-input:focus ~ label, 
-input:valid ~ label{
-    top: -5px
+.pro {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-size: 16px;
+  line-height: 20px;
 }
 
-body{
-  background-color: black;
+.sidebar {
+  background-color: #FBF4E9;
+  height: 100vh;
+  width: 280px;
+  padding: 60px 30px;
+  position: fixed;
+  overflow-x: hidden;
+  transition: width 0.3s ease; 
+  z-index: 1;
 }
 
-.user-info:hover .username,
-.user-info:hover .user-role {
-  display: none;
-}
-
-.user-info:hover .hover-username,
-.user-info:hover .hover-user-role {
+.sidebar .grid .menos p {
   display: block;
 }
 
-.hover-username,
-.hover-user-role {
+.sidebar.minimizado {
+  width: 110px;
+}
+
+.sidebar.minimizado .menos {
+  border: none;
+}
+
+.sidebar.minimizado .menos p.menos {
   display: none;
 }
 
+.mais {
+  display: none;
+}
+
+main {
+  margin-left: 280px;
+  flex-grow: 1;
+  transition: margin-left 0.3s ease;
+}
+body{
+  background-color: #FFFBF5;
+  font-family: "Outfit", sans-serif;
+}
+
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:hover,
 textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-text-fill-color: white !important;
+  -webkit-text-fill-color: black !important;
   -webkit-box-shadow: 0 0 0px 1000px transparent inset;
   transition: background-color 5000s ease-in-out 0s;
+}
+
+input:focus,
+input:active,
+textarea:focus,
+textarea:active,
+select:focus,
+select:active {
+  outline: none;
+  box-shadow: none;
+  border: solid #2F424F 1px;
 }

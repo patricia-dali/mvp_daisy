@@ -1,40 +1,57 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <link rel="stylesheet" href="/assets/css/style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/assets/dist/output.css">
+    <link rel="icon" href="assets/icons/icon.svg" type="image/x-icon">
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 </head>
-<body class="bg-[#092121]">
-    <h1>{{.flash_message}}</h1>
-    <section class="flex justify-center mx-auto lg:mx-0 items-center min-h-screen w-10/12 lg:w-full bg-center bg-cover">
-        <div class="flex relative w-auto lg:w-[400px] h-[450px] p-8 bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[20px] backdrop-blur-lg justify-center items-center">
-            <div>
-                <form action="/login" method="post">
-                    <h2 class="text-3xl text-white text-center">Login</h2>
-                    <div class="relative my-8 w-80 border-b-2 border-white">
-                        <iconify-icon class="absolute right-2 text-white text-[1.2em] top-5" icon="mdi:user-outline"></iconify-icon>
-                        <input class="autofill-fix w-full autofill:bg-yellow-200 h-12 bg-transparent border-0 outline-0 text-[1em] lg:px-5 md:pl-0 md:pr-35 text-white" type="text" id="username" name="username" required oninput="formatUsername()">
-                        <label class="foco absolute top-2/4 left-0.5 text-white text-[1em] pointer-events-none transition duration-500" for="username">Usuário</label>
+
+<body>
+    <div class="flex justify-center py-[30px]">
+        <img id="logoDaisy" src="/assets/imagens/logoDaisy.svg" style="max-width: 110px; height: auto;"
+            alt="Logo Daisy">
+    </div>
+    <section class="flex justify-center mx-auto lg:mx-0 items-center w-10/12 lg:w-full bg-center bg-cover">
+        <div
+            class="flex relative w-auto lg:w-[400px] h-auto bg-[#256872] border-2 border-solid border-white border-opacity-50 rounded-[16px] backdrop-blur-lg justify-center items-center">
+            <div class="w-full">
+                <div class="flex justify-center py-4">
+                    <h2 class="flex font-medium text-[30px] text-white">Login</h2>
+                </div>
+                <form action="/login" method="post"
+                    class="bg-[#FFFBF5] rounded-ee-2xl rounded-es-2xl px-[26px] py-[30px] grid gap-y-[30px]">
+                    <div class="relative border-b-2 border-white">
+                        <label class="text-[#505050]" for="username">Usuário</label>
+                        <input
+                            class="w-full border-[1px] rounded-md border-[#2F424F] h-[48px] bg-transparent lg:px-2 md:pl-0 md:pr-35"
+                            type="text" id="username" name="username" required oninput="formatUsername()">
                     </div>
-                    <div class="relative my-8 w-80 border-b-2 border-white">
-                        <iconify-icon class="absolute right-2 text-white text-[1.2em] top-5 lock-icon" icon="ion:lock-closed-outline"></iconify-icon>
-                        <input class="w-full h-12 bg-transparent border-0 outline-0 text-[1em] lg:px-5 md:pl-0 md:pr-35 text-white" type="password" id="password" name="password" required>
-                        <label class="foco absolute top-2/4 left-0.5  text-white text-[1em] pointer-events-none transition duration-500" for="password">Senha</label>
-                        <button class="absolute right-2 top-2/4 transform -translate-y-2/4 text-white" id="togglePassword" type="button" onclick="togglePasswordVisibility()">
+                    <div class="relative border-b-2 border-white">
+                        <label class="text-[#505050]" for="password">Senha</label>
+                        <input
+                            class="w-full border-[1px] rounded-md border-[#2F424F] h-[48px] bg-transparent lg:px-2 md:pl-0 md:pr-35"
+                            type="password" id="password" name="password" required>
+                        <button class="absolute right-2 top-[70%] transform -translate-y-2/4" id="togglePassword"
+                            type="button" onclick="togglePasswordVisibility()">
                             <iconify-icon icon="mdi:eye" id="eye-icon"></iconify-icon>
                         </button>
                     </div>
-                    <button class="w-full h-10 rounded-[40px] bg-white border-0 outline-0 cursor-pointer text-[1em] font-semibold" type="submit">Entrar</button>
-                    <div class="register text-[.9em] text-white text-center my-25 mt-8">
-                        <p>Não tenho conta <a href="./cadastro" class="no-underline font-semibold">Cadastre-se</a></p>
-                    </div>
-                    <div class="register text-[.9em] text-white text-center my-25 mt-2">
-                        <p><a href="./reset-password" class="no-underline font-semibold">Esqueceu a senha?</a></p>
+                    <button
+                        class="w-full h-[48px] text-white rounded-[80px] bg-[#49DCB1] border-[1px] border-[#2F424F] cursor-pointer text-[16px] font-semibold"
+                        type="submit">Entrar</button>
+                    <div class="text-[#505050]">
+                        <div class="register text-[.9em] text-center">
+                            <p>Não tenho conta <a href="./cadastro"
+                                    class="no-underline font-semibold pl-1">Cadastre-se</a></p>
+                        </div>
+                        <div class="register text-[.9em] text-center mt-2">
+                            <p><a href="./reset-password" class="no-underline font-semibold">Esqueceu a senha?</a></p>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -56,30 +73,26 @@
         }
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var usernameInput = document.getElementById('username');
         usernameInput.focus();
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var passwordInput = document.getElementById('password');
         var togglePasswordButton = document.getElementById('togglePassword');
-        var lockIcon = document.querySelector('.lock-icon'); 
 
         togglePasswordButton.style.visibility = 'hidden';
-        lockIcon.style.visibility = 'block';
 
-        passwordInput.addEventListener('input', function() {
+        passwordInput.addEventListener('input', function () {
             if (passwordInput.value.trim() !== '') {
                 togglePasswordButton.style.visibility = 'visible';
-                lockIcon.style.visibility = 'hidden'; 
             } else {
                 togglePasswordButton.style.visibility = 'hidden';
-                lockIcon.style.visibility = 'visible'; 
             }
         });
-    });    
-    
+    });
+
     function formatUsername() {
         var usernameInput = document.getElementById('username');
         usernameInput.value = usernameInput.value.toLowerCase();
@@ -98,4 +111,5 @@
         }
     }
 </script>
+
 </html>

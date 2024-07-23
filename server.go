@@ -11,7 +11,7 @@ import (
 	"github.com/gorilla/sessions"
 )
 
-var sessionKey = ""
+var sessionKey string
 
 func envPortOr(port string) string {
 	if envPort := os.Getenv("PORT"); envPort != "" {
@@ -45,6 +45,5 @@ func main() {
 }
 
 func init() {
-
 	sessionKey = os.Getenv("SESSION_KEY")
 }

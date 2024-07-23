@@ -2,36 +2,121 @@
 <html lang="pt-br">
 
 <head>
-    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="assets/icons/icon.svg" type="image/x-icon">
     <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/dist/output.css">
     <title>Página inicial</title>
-    <style>
-        .p-4 {
-            padding: 1rem;
-        }
-
-        .resposta {
-            overflow: auto;
-            max-height: 400px;
-            background-color: #333;
-            padding: 1rem;
-            border-radius: 8px;
-        }
-
-        .resposta pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            color: white;
-        }
-    </style>
 </head>
 
-<body class="min-h-screen w-full">
-    <div
+<body class="flex min-h-screen w-full">
+    <nav class="sidebar">
+        <div class="flex justify-between items-center">
+            <img id="logoDaisy" src="/assets/imagens/logoDaisy.svg" style="max-width: 110px; height: auto;"
+                alt="Logo Daisy">
+            <button id="diminuir">
+                <img src="/assets/imagens/menos.svg" class="w-[40px] h-[40px]" alt="Menos">
+            </button>
+            <button id="mais" class="mais">
+                <img src="/assets/imagens/mais.svg" class="w-[40px] h-[40px] ml-[6px]" alt="Mais">
+            </button>
+        </div>
+        <div class="absolute pt-4 grid gap-y-5 web pr-[30px]">
+            <button id="button" class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/icons/chat.svg" style="max-width: 110px; height: auto;">
+                <p class="ml-2 menos">Chat Daisy</p>
+            </button>
+            <button id="button" class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/icons/sifrao.svg">
+                <p class="ml-2 menos">Meu financeiro</p>
+            </button>
+            <button id="button" class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/icons/caixa.svg">
+                <p class="ml-2 menos">Meu estoque</p>
+            </button>
+            <button id="button" class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/icons/user.svg">
+                <p class="ml-2 menos">Perfil</p>
+            </button>
+            <button id="button" class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/icons/config.svg">
+                <p class="ml-2 menos">Configurações</p>
+            </button>
+        </div>
+        <div class="absolute bottom-12 grid gap-y-2 web pr-[30px]">
+            <button id="button" class="menos flex items-center p-2 px-4 w-full rounded-[80px]">
+                <img src="/assets/icons/phone.svg" style="max-width: 110px; height: auto;">
+                <p class="ml-2 menos">Entrar em contato</p>
+            </button>
+            <button id="button" class="menos flex items-center p-2 px-4 w-full rounded-[80px]">
+                <img src="/assets/icons/emoji.svg">
+                <p class="ml-2 menos">Teste grátis</p>
+            </button>
+            <form action="/logout">
+                <button id="button" class="menos flex items-center p-2 px-4 w-full rounded-[80px] ">
+                    <img src="/assets/icons/seta.svg">
+                    <p class="ml-2 menos">Voltar para o site</p>
+                </button>
+            </form>
+        </div>
+    </nav>
+    <main class="grid grid-cols-12 gap-x-6 p-14">
+        <section class="col-span-3 border-[1px] border-[#2F424F] px-5 py-8 rounded-2xl">
+            <div class="grid gap-y-8">
+                <div>
+                    <a href="/index"
+                        class="flex items-center border-[1px] border-[#2F424F] rounded-[80px] h-[48px] w-full text-start text-white bg-[#49DCB1] px-3.5">
+                        <span class="mr-2 text-3xl">+</span>Nova conversa
+                    </a>
+                </div>
+                <div class="border-t-[1px] border-[#2F424F] w-full">
+                </div>
+                <div class="text-[#256872]">
+                    <h1>Conversas recentes</h1>
+                </div>
+                <div class="flex overflow-hidden">
+                    <img src="/assets/icons/chat.svg" class="max-w-[110px] h-auto flex-shrink-0">
+                    <p class="truncate ml-2 flex-grow">Lorem Ipsum is simply dummy text of the printing and typesetting
+                        industry.</p>
+                </div>
+            </div>
+        </section>
+        <section class="relative col-span-9 border-[1px] border-[#2F424F] rounded-2xl overflow-hidden">
+            {{ if eq .RespostaAI "" }}
+            <div class="flex text-[#256872] justify-center w-full mt-8">
+                <div class="grid justify-items-center">
+                    <img src="/assets/icons/icon.svg">
+                    <p class="text-[24px]">Como posso te ajudar?</p>
+                </div>
+            </div>
+            {{ else }}
+            <div class="absolute bottom-[108px] top-[10px] overflow-y-auto">
+                <div class="flex px-5 gap-x-2 mt-10">
+                    <div>
+                        <img src="/assets/icons/icon.svg">
+                    </div>
+                    <div class="mb-10">
+                        <p class="pro font-semibold">Daysi</p>
+                        <div class="w-full bg-[#256872] rounded-b-[10px] rounded-se-[10px] px-4 py-3">
+                            <pre class="whitespace-break-spaces pro text-white">{{ .RespostaAI }}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+            <div class="absolute flex flex-wrap items-center bottom-0 bg-[#256872] w-full h-[108px] rounded-b-2xl">
+                <form class="w-full" hx-target="#resposta">
+                    <div class="flex gap-x-8 w-full px-8">
+                        <input class="rounded-md w-full px-5" type="text" id="pergunta" name="pergunta"
+                            placeholder="Fale com a Daisy..." required>
+                        <button type="submit" class="rounded-full bg-[#49DCB1] px-3 text-4xl text-white">+</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <!--     <div
         class="user-info flex justify-between w-auto p-2 h-auto text-white right-4 top-4 mt-4 mr-4 lg:mt-0 lg:fixed absolute bg-transparent border-2 border-solid border-white border-opacity-50 rounded-[8px] backdrop-blur-lg">
         <div>
             <h1 class="capitalize font-semibold text-base">{{.Username}}</h1>
@@ -98,23 +183,45 @@
                 </script>
             </div>
         </section>
-    </div>
+    </div> -->
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var usernameInput = document.getElementById('pergunta');
-            usernameInput.focus();
+        const botoes = document.querySelectorAll('#button');
+
+        botoes.forEach(function (botao) {
+            botao?.addEventListener('click', function () {
+                botoes.forEach(function (b) {
+                    b.style.backgroundColor = '';
+                });
+
+                this.style.backgroundColor = '#FFE1B1';
+            });
         });
 
-        function onHover() {
-            const username = document.querySelector('.username');
-            const userRole = document.querySelector('.user-role');
-            const hoverUsername = document.querySelector('.hover-username');
-            const hoverUserRole = document.querySelector('.hover-user-role');
+        const sidebar = document.querySelector('.sidebar');
+        const main = document.querySelector('main');
+        const diminuirBtn = document.getElementById('diminuir');
+        const maisBtn = document.getElementById('mais');
 
-            hoverUsername.textContent = username.textContent;
-            hoverUserRole.textContent = userRole.textContent;
-        }
+        diminuirBtn.addEventListener('click', () => {
+            sidebar.classList.add('minimizado');
+            main.style.marginLeft = '110px';
+            diminuirBtn.style.display = 'none';
+            maisBtn.style.display = 'block';
+            logoDaisy.style.display = 'none';
+            diminuirBotao.style.display = 'none';
+            mais.style.display = 'flex';
+        });
+
+        maisBtn.addEventListener('click', () => {
+            sidebar.classList.remove('minimizado');
+            main.style.marginLeft = '280px';
+            diminuirBtn.style.display = 'block';
+            maisBtn.style.display = 'none';
+            logoDaisy.style.display = 'block';
+            diminuirBotao.style.display = 'block';
+            mais.style.display = 'none';
+        });
     </script>
 </body>
 
