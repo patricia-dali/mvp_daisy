@@ -112,7 +112,7 @@ func ResponseAleatoria(pergunta string, username string) (string, time.Duration,
 	return resp.Choices[len(resp.Choices)-1].Message.Content, tempoDeResposta, nil
 }
 
-func ResponseBD(pergunta, parametro string, respostaAnterior string, results [][]interface{}) (string, time.Duration, error) {
+func ResponseBD(pergunta, username string, parametro string, respostaAnterior string, results [][]interface{}) (string, time.Duration, error) {
 	startTime := time.Now()
 
 	client := openai.NewClient(os.Getenv("CHAVE_OPENAI"))
@@ -120,7 +120,7 @@ func ResponseBD(pergunta, parametro string, respostaAnterior string, results [][
 	messages := []openai.ChatCompletionMessage{
 		{
 			Role:    openai.ChatMessageRoleSystem,
-			Content: "Você é um assistente virtual que ajuda a responder perguntas.",
+			Content: "Você é um assistente virtual chamado Daysi que ajuda o " + username + " em sua projeto.",
 		},
 	}
 

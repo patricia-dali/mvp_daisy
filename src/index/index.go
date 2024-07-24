@@ -110,7 +110,7 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 		}
 
 		if num == 1 {
-			respostaAI, tempoDeResposta, err = openai.ResponseBD(pergunta, parametro, "", nil)
+			respostaAI, tempoDeResposta, err = openai.ResponseBD(pergunta, username, parametro, "", nil)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
@@ -137,7 +137,7 @@ func ShowIndexPage(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 				}
 				data.Results = results
 
-				respostaAI, tempoDeResposta, err = openai.ResponseBD("", "", respostaAI, results)
+				respostaAI, tempoDeResposta, err = openai.ResponseBD("", "", "", respostaAI, results)
 				if err != nil {
 					http.Error(w, err.Error(), http.StatusInternalServerError)
 					return

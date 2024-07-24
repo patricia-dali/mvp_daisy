@@ -8,8 +8,12 @@
 .pro {
   font-family: 'Source Sans 3';
   font-style: normal;
-  font-size: 16px;
   line-height: 20px;
+}
+
+.fim {
+  align-content: center;
+  padding-top: 100px;
 }
 
 .sidebar {
@@ -51,6 +55,8 @@ main {
 body{
   background-color: #FFFBF5;
   font-family: "Outfit", sans-serif;
+  color: #2F424F;
+  letter-spacing: 0.05em;
 }
 
 input:-webkit-autofill,

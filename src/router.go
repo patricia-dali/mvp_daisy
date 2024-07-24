@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"exemplo.com/cadastro"
+	"exemplo.com/home"
 	"exemplo.com/index"
 	"exemplo.com/login"
 	"exemplo.com/logout"
@@ -66,6 +67,8 @@ func HandleRoutes(mux *http.ServeMux, db *sql.DB, store *sessions.CookieStore) {
 	mux.Handle("/index", AuthMiddleware(indexHandlerFunc, store))
 
 	mux.HandleFunc("/cadastro", cadastro.ShowCadastroPage)
+
+	mux.HandleFunc("/home", home.ShowHomePage)
 
 	usersHandlerFunc := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		users.ShowUsersPage(w, r, db)
