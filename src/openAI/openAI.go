@@ -86,7 +86,7 @@ func ResponseAleatoria(pergunta string, username string) (string, time.Duration,
 	messages := []openai.ChatCompletionMessage{
 		{
 			Role:    openai.ChatMessageRoleSystem,
-			Content: "Você é um assistente virtual chamado Daysi que ajuda o " + username + " em sua projeto.",
+			Content: "Você é um assistente virtual chamado Daisy que ajuda o " + username + " em sua projeto.",
 		},
 	}
 
@@ -120,7 +120,7 @@ func ResponseBD(pergunta, username string, parametro string, respostaAnterior st
 	messages := []openai.ChatCompletionMessage{
 		{
 			Role:    openai.ChatMessageRoleSystem,
-			Content: "Você é um assistente virtual chamado Daysi que ajuda o " + username + " em sua projeto.",
+			Content: "Você é um assistente virtual chamado Daisy que ajuda o " + username + " em sua projeto.",
 		},
 	}
 
