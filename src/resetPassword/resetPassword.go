@@ -70,10 +70,10 @@ func SendResetEmailHandler(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &http.Cookie{
 		Name:  "flash_message",
 		Value: "Um e-mail para redefinir sua senha foi enviado. Verifique sua caixa de entrada.",
-		Path:  "/",
+		Path:  "/login",
 	})
 
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
 func sendEmail(to, resetLink string) error {
@@ -130,7 +130,7 @@ func ResetPasswordPage(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
 
@@ -170,7 +170,7 @@ func ResetPasswordHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 			return
 		}
 
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
 		return
 	}
 

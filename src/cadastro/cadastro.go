@@ -47,7 +47,7 @@ func Cadastro(w http.ResponseWriter, r *http.Request, db *sql.DB) error {
 		return err
 	}
 
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 
 	return nil
 }

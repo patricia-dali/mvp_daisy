@@ -26,7 +26,7 @@ func AdminAuthMiddleware(next http.HandlerFunc, store *sessions.CookieStore) htt
 
 		username, ok := session.Values["username"].(string)
 		if !ok || username == "" {
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
 		}
 
@@ -59,7 +59,7 @@ func AuthMiddleware(next http.HandlerFunc, store *sessions.CookieStore) http.Han
 }
 
 func HandleRoutes(mux *http.ServeMux, db *sql.DB, store *sessions.CookieStore) {
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		login.ShowLoginPage(w, r, store)
 	})
 
@@ -70,7 +70,7 @@ func HandleRoutes(mux *http.ServeMux, db *sql.DB, store *sessions.CookieStore) {
 
 	mux.HandleFunc("/cadastro", cadastro.ShowCadastroPage)
 
-	mux.HandleFunc("/home", home.ShowHomePage)
+	mux.HandleFunc("/", home.ShowHomePage)
 
 	mux.HandleFunc("/sobre", sobre.ShowSobrePage)
 
@@ -97,7 +97,7 @@ func HandleRoutes(mux *http.ServeMux, db *sql.DB, store *sessions.CookieStore) {
 		resetPassword.ResetPasswordHandler(w, r, db)
 	})
 
-	mux.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/signin", func(w http.ResponseWriter, r *http.Request) {
 		login.Login(w, r, db, store)
 	})
 

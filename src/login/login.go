@@ -44,7 +44,7 @@ func Login(w http.ResponseWriter, r *http.Request, db *sql.DB, store *sessions.C
 	err := db.QueryRow("SELECT id, password, salt, admin, email FROM users WHERE username = $1", usernameInput).Scan(&userID, &hashedPassword, &salt, &isAdmin, &email)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
 			return
 		}
 		http.Error(w, err.Error(), http.StatusInternalServerError)
