@@ -7,7 +7,7 @@
     <link rel="icon" href="assets/imagens/icon.svg" type="image/x-icon">
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/dist/output.css">
-    <title>Página inicial</title>
+    <title>Perfil</title>
 </head>
 
 <body class="flex min-h-screen w-full">
@@ -67,59 +67,7 @@
         </div>
     </nav>
     <main class="grid grid-cols-12 gap-x-6 p-14">
-        <section class="col-span-3 border-[1px] border-[#2F424F] px-5 py-8 rounded-2xl">
-            <div class="grid gap-y-8">
-                <div>
-                    <a href="/index"
-                        class="flex items-center border-[1px] border-[#2F424F] rounded-[80px] h-[48px] w-full text-start text-white bg-[#49DCB1] px-3.5">
-                        <span class="mr-2 text-3xl">+</span>Nova conversa
-                    </a>
-                </div>
-                <div class="border-t-[1px] border-[#2F424F] w-full">
-                </div>
-                <div class="text-[#256872]">
-                    <h1>Conversas recentes</h1>
-                </div>
-                <div class="flex overflow-hidden">
-                    <img src="/assets/imagens/chat.svg" class="max-w-[110px] h-auto flex-shrink-0">
-                    <p class="truncate ml-2 flex-grow">Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry.</p>
-                </div>
-            </div>
-        </section>
-        <section class="relative col-span-9 border-[1px] border-[#2F424F] rounded-2xl overflow-hidden">
-            {{ if eq .RespostaAI "" }}
-            <div class="flex text-[#256872] justify-center w-full mt-8">
-                <div class="grid justify-items-center">
-                    <img src="/assets/imagens/icon.svg">
-                    <p class="text-[24px]">Como posso te ajudar?</p>
-                </div>
-            </div>
-            {{ else }}
-            <div class="absolute bottom-[108px] top-[10px] overflow-y-auto">
-                <div class="flex px-5 gap-x-2 mt-10">
-                    <div>
-                        <img src="/assets/imagens/icon.svg">
-                    </div>
-                    <div class="mb-10">
-                        <p class="pro font-semibold">Daisy</p>
-                        <div class="w-full bg-[#256872] rounded-b-[10px] rounded-se-[10px] px-4 py-3">
-                            <pre class="whitespace-break-spaces pro text-white">{{ .RespostaAI }}</pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{ end }}
-            <div class="absolute flex flex-wrap items-center bottom-0 bg-[#256872] w-full h-[108px] rounded-b-2xl">
-                <form class="w-full" hx-target="#resposta">
-                    <div class="flex gap-x-8 w-full px-8">
-                        <input class="rounded-md w-full px-5" type="text" id="pergunta" name="pergunta"
-                            placeholder="Fale com a Daisy..." required>
-                        <button type="submit" class="rounded-full bg-[#49DCB1] px-3 text-4xl text-white">+</button>
-                    </div>
-                </form>
-            </div>
-        </section>
+        Perfil
     </main>
     <script>
         const currentPath = window.location.pathname;

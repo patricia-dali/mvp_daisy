@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/dist/output.css">
@@ -9,87 +10,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
 </head>
+
 <body>
     <div class="flex justify-center py-[30px]">
-        <img id="logoDaisy" src="/assets/imagens/logoDaisy.svg" style="max-width: 110px; height: auto;"
-            alt="Logo Daisy">
+        <a href="/">
+            <img id="logoDaisy" src="/assets/imagens/logoDaisy.svg" style="max-width: 110px; height: auto;"
+                alt="Logo Daisy">
+        </a>
     </div>
     <section class="flex justify-center mb-[40px] lg:mx-0 items-center h-auto w-10/12 lg:w-full bg-center bg-cover">
         <div class="flex relative w-auto lg:w-[480px] h-auto bg-[#256872] border-2 border-solid border-white border-opacity-50 rounded-[16px] backdrop-blur-lg justify-center items-center"">
-            <div class="w-full">
-                <div class="flex justify-center py-4">
-                    <h2 class="flex font-medium text-[30px] text-white">Cadastre-se</h2>
-                </div>
-                <form action="/save" method="post" class="bg-[#FFFBF5] rounded-ee-2xl rounded-es-2xl px-[26px] py-[30px] grid gap-y-[30px]">
-                    <div class="relative border-b-2 border-white">
-                        <label class="text-[#505050]" for="username">Usuário</label>
-                        <input class="w-full border-[1px] rounded-md border-[#2F424F] h-[48px] bg-transparent lg:px-2 md:pl-0 md:pr-35" type="text" id="username" name="username" required oninput="formatUsername()">
-                    </div>
-                    <div class="relative border-b-2 border-white">
-                        <label class="text-[#505050]" for="password">Senha</label>
-                        <input class="w-full border-[1px] rounded-md border-[#2F424F] h-[48px] bg-transparent lg:px-2 md:pl-0 md:pr-35" type="password" id="password" name="password" required>
-                        <button class="absolute right-2 top-[70%] transform -translate-y-2/4" id="togglePassword" type="button" onclick="togglePasswordVisibility()">
-                            <iconify-icon icon="mdi:eye" id="eye-icon"></iconify-icon>
-                        </button>                   
-                    </div>
-                    <div class="relative border-b-2 border-white">
-                        <label class="text-[#505050]" for="email">E-mail</label>
-                        <input class="w-full border-[1px] rounded-md border-[#2F424F] h-[48px] bg-transparent lg:px-2 md:pl-0 md:pr-35" type="email" id="email" name="email" required>
-                    </div>
-                    <div class="relative border-b-2 border-white">
-                        <label class="text-[#505050]" for="phone">Telefone</label>
-                        <input class="w-full border-[1px] rounded-md border-[#2F424F] h-[48px] bg-transparent lg:px-2 md:pl-0 md:pr-35" type="tel" id="phone" name="phone" required>
-                    </div>
-                    <div class="relative border-b-2 border-white">
-                        <input type="checkbox" id="admin" name="admin">
-                        <label class="text-[#505050]" for="admin">Sou administrador</label> 
-                    </div>
-                    <button class="w-full h-[48px] text-white rounded-[80px] bg-[#49DCB1] border-[1px] border-[#2F424F] cursor-pointer text-[16px] font-semibold">Cadastrar</button>
-                    <div class="register text-[.9em] text-[#505050] text-center">
-                        <p>Já tem conta? <a href="./" class="no-underline font-semibold">Login</a></p>
-                    </div>
-                </form>
+            <div class=" w-full">
+            <div class="flex justify-center py-4">
+                <h2 class="flex font-medium text-[30px] text-white">Cadastre-se</h2>
             </div>
+            <form action="/save" method="post"
+                class="bg-[#FFFBF5] rounded-ee-2xl rounded-es-2xl px-[26px] py-[30px] grid gap-y-[30px]">
+                <div class="relative border-b-2 border-white">
+                    <label class="text-[#505050]" for="username">Usuário</label>
+                    <input
+                        class="w-full border-[1px] rounded-md border-[#2F424F] h-[48px] bg-transparent lg:px-2 md:pl-0 md:pr-35"
+                        type="text" id="username" name="username" required oninput="formatUsername()">
+                </div>
+                <div class="relative border-b-2 border-white">
+                    <label class="text-[#505050]" for="password">Senha</label>
+                    <input
+                        class="w-full border-[1px] rounded-md border-[#2F424F] h-[48px] bg-transparent lg:px-2 md:pl-0 md:pr-35"
+                        type="password" id="password" name="password" required>
+                    <button class="absolute right-2 top-[70%] transform -translate-y-2/4" id="togglePassword"
+                        type="button" onclick="togglePasswordVisibility()">
+                        <iconify-icon icon="mdi:eye" id="eye-icon"></iconify-icon>
+                    </button>
+                </div>
+                <div class="relative border-b-2 border-white">
+                    <label class="text-[#505050]" for="email">E-mail</label>
+                    <input
+                        class="w-full border-[1px] rounded-md border-[#2F424F] h-[48px] bg-transparent lg:px-2 md:pl-0 md:pr-35"
+                        type="email" id="email" name="email" required>
+                </div>
+                <div class="relative border-b-2 border-white">
+                    <label class="text-[#505050]" for="phone">Telefone</label>
+                    <input
+                        class="w-full border-[1px] rounded-md border-[#2F424F] h-[48px] bg-transparent lg:px-2 md:pl-0 md:pr-35"
+                        type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="relative border-b-2 border-white">
+                    <input type="checkbox" id="admin" name="admin">
+                    <label class="text-[#505050]" for="admin">Sou administrador</label>
+                </div>
+                <button
+                    class="w-full h-[48px] text-white rounded-[80px] bg-[#49DCB1] border-[1px] border-[#2F424F] cursor-pointer text-[16px] font-semibold">Cadastrar</button>
+                <div class="register text-[.9em] text-[#505050] text-center">
+                    <p>Já tem conta? <a href="./" class="no-underline font-semibold">Login</a></p>
+                </div>
+            </form>
+        </div>
         </div>
     </section>
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var usernameInput = document.getElementById('username');
-        
+
         usernameInput.focus();
     });
-    document.addEventListener('DOMContentLoaded', function() {
-          var phoneInput = document.getElementById('phone');
-          
-          phoneInput.addEventListener('input', function() {
-              var phoneNumber = phoneInput.value.replace(/\D/g, '');
+    document.addEventListener('DOMContentLoaded', function () {
+        var phoneInput = document.getElementById('phone');
 
-              phoneNumber = phoneNumber.substring(0, 11);
+        phoneInput.addEventListener('input', function () {
+            var phoneNumber = phoneInput.value.replace(/\D/g, '');
 
-              if (phoneNumber.length > 2) {
-                    phoneNumber = '(' + phoneNumber.substring(0, 2) + ')' + phoneNumber.substring(2);
-              }
-              if (phoneNumber.length > 5) {
-                    phoneNumber = phoneNumber.substring(0, 5) + ' ' + phoneNumber.substring(5);
-              }
-              if (phoneNumber.length > 10) {
-                    phoneNumber = phoneNumber.substring(0, 10) + '-' + phoneNumber.substring(10);
-              }
+            phoneNumber = phoneNumber.substring(0, 11);
 
-              phoneInput.value = phoneNumber;
-          });
+            if (phoneNumber.length > 2) {
+                phoneNumber = '(' + phoneNumber.substring(0, 2) + ')' + phoneNumber.substring(2);
+            }
+            if (phoneNumber.length > 5) {
+                phoneNumber = phoneNumber.substring(0, 5) + ' ' + phoneNumber.substring(5);
+            }
+            if (phoneNumber.length > 10) {
+                phoneNumber = phoneNumber.substring(0, 10) + '-' + phoneNumber.substring(10);
+            }
 
-          phoneInput.maxLength = 15;
-      });
+            phoneInput.value = phoneNumber;
+        });
 
-      document.addEventListener('DOMContentLoaded', function() {
+        phoneInput.maxLength = 15;
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
         var passwordInput = document.getElementById('password');
         var togglePasswordButton = document.getElementById('togglePassword');
 
         togglePasswordButton.style.visibility = 'hidden';
 
-        passwordInput.addEventListener('input', function() {
+        passwordInput.addEventListener('input', function () {
             if (passwordInput.value.trim() !== '') {
                 togglePasswordButton.style.visibility = 'visible';
             } else {
@@ -116,4 +131,5 @@
         }
     }
 </script>
+
 </html>

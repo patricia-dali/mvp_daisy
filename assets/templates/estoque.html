@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/imagens/icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/dist/output.css">
+    <title>Meu estoque</title>
+</head>
+
+<body class="flex min-h-screen w-full">
+    <nav class="sidebar">
+        <div class="flex justify-between items-center">
+            <img id="logoDaisy" src="/assets/imagens/logoDaisy.svg" style="max-width: 110px; height: auto;"
+                alt="Logo Daisy">
+            <button id="diminuir">
+                <img src="/assets/imagens/menos.svg" class="w-[40px] h-[40px]" alt="Menos">
+            </button>
+            <button id="mais" class="mais">
+                <img src="/assets/imagens/mais.svg" class="w-[40px] h-[40px] ml-[6px]" alt="Mais">
+            </button>
+        </div>
+        <div class="absolute pt-4 grid gap-y-5 web pr-[30px]">
+            <a href="/index" id="button"
+                class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/imagens/chat.svg" style="max-width: 110px; height: auto;">
+                <p class="ml-2 menos">Chat Daisy</p>
+            </a>
+            <a href="/financeiro" id="button"
+                class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/imagens/sifrao.svg">
+                <p class="ml-2 menos">Meu financeiro</p>
+            </a>
+            <a href="/estoque" id="button"
+                class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/imagens/caixa.svg">
+                <p class="ml-2 menos">Meu estoque</p>
+            </a>
+            <a href="/perfil" id="button"
+                class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/imagens/user.svg">
+                <p class="ml-2 menos">Perfil</p>
+            </a>
+            <a href="/config" id="button"
+                class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/imagens/config.svg">
+                <p class="ml-2 menos">Configurações</p>
+            </a>
+        </div>
+        <div class="absolute bottom-12 grid gap-y-2 web pr-[30px]">
+            <button id="button" class="menos flex items-center p-2 px-4 w-full rounded-[80px]">
+                <img src="/assets/imagens/phone.svg" style="max-width: 110px; height: auto;">
+                <p class="ml-2 menos">Entrar em contato</p>
+            </button>
+            <button id="button" class="menos flex items-center p-2 px-4 w-full rounded-[80px]">
+                <img src="/assets/imagens/emoji.svg">
+                <p class="ml-2 menos">Teste grátis</p>
+            </button>
+            <form action="/logout">
+                <button id="button" class="menos flex items-center p-2 px-4 w-full rounded-[80px] ">
+                    <img src="/assets/imagens/seta.svg">
+                    <p class="ml-2 menos">Voltar para o site</p>
+                </button>
+            </form>
+        </div>
+    </nav>
+    <main class="p-14">
+        <section class="flex justify-between mb-7">
+            <div>
+                <p class="text-[#256872] text-4xl font-medium">Estoque</p>
+                <p class="text-[#456990]">Página de exemplo para você sentir o que oferecemos para sua empresa :)</p>
+            </div>
+            <div class="flex bg-[#FFE1B1] rounded-[50px] self-center p-3 w-auto h-auto gap-x-3.5">
+                <div
+                    class="flex bg-white h-10 self-center p-2 border-[#456990] border rounded-[80px] gap-x-2 text-[#2F424F] items-center">
+                    <p>Matriz</p>
+                    <div class="rotate-90 dm mt-1 font-black cursor-pointer">
+                        <p class="text-[24px] font-normal">></p>
+                    </div>
+                </div>
+                <div
+                    class="flex bg-white h-10 self-center p-2 border-[#456990] border rounded-[80px] gap-x-2 text-[#2F424F]">
+                    <img width="15px" src="/assets/imagens/calendar.svg">
+                    <p>00/00/0000</p>
+                </div>
+                <div class="bg-white h-10 p-2 border-[#456990] border rounded-full flex items-center justify-center"
+                    style="width: 40px; height: 40px;">
+                    <img width="20px" src="/assets/imagens/whatsapp-verde.svg">
+                </div>
+                <div class="bg-white h-10 p-2 border-[#456990] border rounded-full flex items-center justify-center"
+                    style="width: 40px; height: 40px;">
+                    <img width="15px" src="/assets/imagens/sino.svg">
+                </div>
+            </div>
+        </section>
+        <section class="grid grid-cols-2 gap-x-7">
+            <div id="produtos" class="bg-white border border-[#FFE1B1] rounded-xl p-6 w-full grid gap-6">
+                <div class="flex justify-between col-span-full">
+                    <p class="text-[#2F424F] font-medium text-xl">Lista de produtos (588)</p>
+                    <div class="flex gap-x-6 text-[#456990] font-medium items-start">
+                        <p>Organizar</p>
+                        <div class="dm mt-1.5 font-black cursor-pointer">
+                            <p class="rotate-90 text-[24px] font-normal h-4">></p>
+                        </div>
+                    </div>
+                </div>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#256872] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/coca-cola.svg">
+                    <p class="text-sm font-medium text-center">Coca-cola lata</p>
+                </button>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#FF5D5D] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/macarrao.svg">
+                    <p class="text-sm font-medium text-center">Macarrão Barilla</p>
+                </button>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#256872] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/agua-indaia.svg">
+                    <p class="text-sm font-medium text-center">Água Indaiá 1.5L</p>
+                </button>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#FFE500] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/ruffles.svg">
+                    <p class="text-sm font-medium text-center">Ruffles</p>
+                </button>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#256872] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/nescau.svg">
+                    <p class="text-sm font-medium text-center">Nescau</p>
+                </button>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#256872] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/nescau.svg">
+                    <p class="text-sm font-medium text-center">Nescau</p>
+                </button>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#256872] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/nescau.svg">
+                    <p class="text-sm font-medium text-center">Nescau</p>
+                </button>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#256872] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/nescau.svg">
+                    <p class="text-sm font-medium text-center">Nescau</p>
+                </button>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#256872] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/nescau.svg">
+                    <p class="text-sm font-medium text-center">Nescau</p>
+                </button>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#256872] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/nescau.svg">
+                    <p class="text-sm font-medium text-center">Nescau</p>
+                </button>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#256872] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/nescau.svg">
+                    <p class="text-sm font-medium text-center">Nescau</p>
+                </button>
+                <button
+                    class="product-button w-full rounded-[10px] border border-[#256872] bg-[#FBF4E9] p-4 grid justify-items-center gap-y-[10px] h-32">
+                    <img src="/assets/imagens/nescau.svg">
+                    <p class="text-sm font-medium text-center">Nescau</p>
+                </button>
+            </div>
+            <div id="oneProduto" class="w-full gap-x-7 hidden bg-white border border-[#FFE1B1] rounded-xl p-6">
+                ola
+            </div>
+        </section>
+
+    </main>
+    <script>
+        const currentPath = window.location.pathname;
+
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+
+        sidebarLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.style.backgroundColor = '#FFE1B1';
+            }
+        });
+
+        const sidebar = document.querySelector('.sidebar');
+        const main = document.querySelector('main');
+        const diminuirBtn = document.getElementById('diminuir');
+        const maisBtn = document.getElementById('mais');
+
+        diminuirBtn.addEventListener('click', () => {
+            sidebar.classList.add('minimizado');
+            main.style.marginLeft = '110px';
+            diminuirBtn.style.display = 'none';
+            maisBtn.style.display = 'block';
+            logoDaisy.style.display = 'none';
+            diminuirBotao.style.display = 'none';
+            mais.style.display = 'flex';
+        });
+
+        maisBtn.addEventListener('click', () => {
+            sidebar.classList.remove('minimizado');
+            main.style.marginLeft = '280px';
+            diminuirBtn.style.display = 'block';
+            maisBtn.style.display = 'none';
+            logoDaisy.style.display = 'block';
+            diminuirBotao.style.display = 'block';
+            mais.style.display = 'none';
+        });
+
+        const botoes = document.querySelectorAll('#button');
+
+        botoes.forEach(function (botao) {
+            botao?.addEventListener('click', function () {
+                botoes.forEach(function (b) {
+                    b.style.backgroundColor = '';
+                });
+
+                this.style.backgroundColor = '#FFE1B1';
+            });
+        });
+
+
+
+        const produtos = document.getElementById("produtos")
+        const oneProduto = document.getElementById("oneProduto")
+
+        let isVisible = false;
+
+        document.querySelectorAll('.product-button').forEach(button => {
+            button.addEventListener('click', () => {
+                if (!isVisible) {
+                    oneProduto.classList.remove('hidden');
+                    produtos.style.gridTemplateColumns = 'repeat(3, minmax(0, 1fr))';
+                    produtos.style.gridColumn = 'span 1 / span 1';
+                    isVisible = true;
+                } else {
+                    oneProduto.classList.add('hidden');
+                    produtos.style.gridTemplateColumns = 'repeat(6, minmax(0, 1fr))';
+                    produtos.style.gridColumn = 'span 2 / span 2';
+                    isVisible = false;
+                }
+            });
+        });
+
+    </script>
+</body>
+
+<style>
+    #produtos {
+        grid-column: span 2 / span 2;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+</style>
+</html>

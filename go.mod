@@ -26,6 +26,14 @@ replace exemplo.com/sobre => ./src/sobre
 
 replace exemplo.com/como => ./src/como
 
+replace exemplo.com/financeiro => ./src/financeiro
+
+replace exemplo.com/estoque => ./src/estoque
+
+replace exemplo.com/perfil => ./src/perfil
+
+replace exemplo.com/config => ./src/config
+
 require (
 	exemplo.com/database v0.0.0-00010101000000-000000000000
 	exemplo.com/router v0.0.0-00010101000000-000000000000
@@ -35,11 +43,15 @@ require (
 require (
 	exemplo.com/cadastro v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/como v0.0.0-00010101000000-000000000000 // indirect
+	exemplo.com/config v0.0.0-00010101000000-000000000000 // indirect
+	exemplo.com/estoque v0.0.0-00010101000000-000000000000 // indirect
+	exemplo.com/financeiro v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/home v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/index v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/login v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/logout v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/openAI v0.0.0-00010101000000-000000000000 // indirect
+	exemplo.com/perfil v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/resetPassword v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/sobre v0.0.0-00010101000000-000000000000 // indirect
 	exemplo.com/users v0.0.0-00010101000000-000000000000 // indirect

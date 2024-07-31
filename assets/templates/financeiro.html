@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/imagens/icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/dist/output.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <title>Meu financeiro</title>
+</head>
+
+<body class="flex min-h-screen w-full">
+    <nav class="sidebar">
+        <div class="flex justify-between items-center">
+            <img id="logoDaisy" src="/assets/imagens/logoDaisy.svg" style="max-width: 110px; height: auto;"
+                alt="Logo Daisy">
+            <button id="diminuir">
+                <img src="/assets/imagens/menos.svg" class="w-[40px] h-[40px]" alt="Menos">
+            </button>
+            <button id="mais" class="mais">
+                <img src="/assets/imagens/mais.svg" class="w-[40px] h-[40px] ml-[6px]" alt="Mais">
+            </button>
+        </div>
+        <div class="absolute pt-4 grid gap-y-5 web pr-[30px]">
+            <a href="/index" id="button"
+                class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/imagens/chat.svg" style="max-width: 110px; height: auto;">
+                <p class="ml-2 menos">Chat Daisy</p>
+            </a>
+            <a href="/financeiro" id="button"
+                class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/imagens/sifrao.svg">
+                <p class="ml-2 menos">Meu financeiro</p>
+            </a>
+            <a href="/estoque" id="button"
+                class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/imagens/caixa.svg">
+                <p class="ml-2 menos">Meu estoque</p>
+            </a>
+            <a href="/perfil" id="button"
+                class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/imagens/user.svg">
+                <p class="ml-2 menos">Perfil</p>
+            </a>
+            <a href="/config" id="button"
+                class="menos flex border-[1px] items-center border-[#2F424F] p-2 px-4 rounded-[80px]">
+                <img src="/assets/imagens/config.svg">
+                <p class="ml-2 menos">Configurações</p>
+            </a>
+        </div>
+        <div class="absolute bottom-12 grid gap-y-2 web pr-[30px]">
+            <button id="button" class="menos flex items-center p-2 px-4 w-full rounded-[80px]">
+                <img src="/assets/imagens/phone.svg" style="max-width: 110px; height: auto;">
+                <p class="ml-2 menos">Entrar em contato</p>
+            </button>
+            <button id="button" class="menos flex items-center p-2 px-4 w-full rounded-[80px]">
+                <img src="/assets/imagens/emoji.svg">
+                <p class="ml-2 menos">Teste grátis</p>
+            </button>
+            <form action="/logout">
+                <button id="button" class="menos flex items-center p-2 px-4 w-full rounded-[80px] ">
+                    <img src="/assets/imagens/seta.svg">
+                    <p class="ml-2 menos">Voltar para o site</p>
+                </button>
+            </form>
+        </div>
+    </nav>
+    <main class="p-14">
+        <section class="flex justify-between mb-7"> 
+            <div>
+                <p class="text-[#256872] text-4xl font-medium">Financeiro</p>
+                <p class="text-[#456990]">Página de exemplo para você sentir o que oferecemos para sua empresa :)
+                    <a class="text-[#49DCB1] underline ml-2" href="/index">Contratar</a>
+                </p>
+            </div>
+            <div class="flex bg-[#FFE1B1] rounded-[50px] self-center p-3 w-auto h-auto gap-x-3.5">
+                <div
+                    class="flex bg-white self-center p-2 border-[#456990] border rounded-[80px] gap-x-2 text-[#2F424F]">
+                    <img width="15px" src="/assets/imagens/calendar.svg">
+                    <p>00/00/0000</p>
+                </div>
+                <div class="bg-white p-2 border-[#456990] border rounded-full flex items-center justify-center"
+                    style="width: 40px; height: 40px;">
+                    <img width="20px" src="/assets/imagens/whatsapp-verde.svg">
+                </div>
+                <div class="bg-white p-2 border-[#456990] border rounded-full flex items-center justify-center"
+                    style="width: 40px; height: 40px;">
+                    <img width="15px" src="/assets/imagens/sino.svg">
+                </div>
+            </div>
+        </section>
+        <section class="bg-white border-[#FFE1B1] border rounded-xl">
+            <div class="flex justify-between px-6 pt-5">
+                <div class="flex text-[#2F424F]">
+                    <p class="pr-4 text-xl font-medium">Gráfico de vendas (R$)</p>                    
+                    <div class="rotate-90 dm text-xl font-black cursor-pointer">
+                        <p>></p>
+                    </div>
+                </div>
+                <div class="flex gap-x-7">
+                    <div class="flex gap-x-3">
+                        <p class="text-[#456990] font-medium">Análise por produto</p>
+                        <div class="rotate-90 dm text-xl font-black cursor-pointer">
+                            <p>></p>
+                        </div>
+                    </div>
+                    <div class="border-r border-[#B0B0B0]">                        
+                    </div>
+                    <div class="flex gap-x-3">
+                        <p class="text-[#456990] font-medium">Análise por produto</p>
+                        <div class="rotate-90 dm text-xl font-black cursor-pointer">
+                            <p>></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <canvas id="myChart" style="width:100%;max-width:100%;height: 300px; padding: 20px;"></canvas>
+        </section>
+        <section class="flex gap-x-7 mt-7">
+            <div class="bg-white p-6 rounded-xl border-[#FFE1B1] border w-full">
+                <div class="flex justify-between mb-6">
+                    <div>
+                        <p class="text-[#2F424F] font-medium text-xl">Vendas e lucro</p>
+                        <div class="flex gap-x-2">
+                            <img width="15px" src="/assets/imagens/calendar.svg">
+                            <p class="text-[#456990] font-medium">00/00/0000</p>
+                        </div>
+                    </div>
+                    <div class="flex text-[#456990] mt-1">
+                        <p class="font-medium pr-5">Cola-Cola</p>
+                        <div class="rotate-90 dm text-2xl font-black cursor-pointer h-3 mt-1.5">
+                            <p class="h-3">></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid gap-y-6">
+                    <div class="bg-[#FBF4E9] font-medium text-[#2F424F] text-2xl border border-[#256872] rounded-[10px] px-5 py-6 flex justify-between">
+                        <p>Valor vendido</p>
+                        <p>R$ 00</p>
+                    </div>
+                    <div class="bg-[#FBF4E9] font-medium text-[#2F424F] text-2xl border border-[#256872] rounded-[10px] px-5 py-6 flex justify-between">
+                        <p>Lucro bruto</p>
+                        <p>R$ 00</p>
+                    </div>
+                    <div class="bg-[#FBF4E9] font-medium text-[#2F424F] text-2xl border border-[#256872] rounded-[10px] px-5 py-6 flex justify-between">
+                        <p>Lucro líquido</p>
+                        <p>R$ 00</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white px-5 py-6 rounded-xl border-[#FFE1B1] border w-full">
+                <div class="flex justify-between mb-10">
+                    <div>
+                        <p class="text-[#2F424F] font-medium text-xl">Relatórios</p>
+                        <div class="flex gap-x-2">
+                            <img width="15px" src="/assets/imagens/calendar.svg">
+                            <p class="text-[#456990] font-medium">00/00</p>
+                        </div>
+                    </div>
+                    <div class="flex text-[#456990] mt-1">
+                        <p class="font-medium pr-5">2024</p>
+                        <div class="rotate-90 dm text-2xl font-black cursor-pointer h-3 mt-1.5">
+                            <p class="h-3">></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex gap-x-3">
+                    <button class="dm">&#10094;</button>
+                    <div class="p-6 rounded-[10px] bg-[#256872] text-white font-medium w-full grid gap-y-3 justify-items-center">
+                        <img src="/assets/imagens/check.svg">
+                        <div class="text-center">
+                            <p class="leading-4 mb-1.5">Meta batida</p>
+                            <p class="text-sm">00/00/0000</p>
+                        </div>
+                        <div class="flex gap-x-3 justify-center">
+                                <div class="bg-[#2F424F] rounded-full w-9 h-9 p-[6px] flex justify-center">
+                                    <img src="/assets/imagens/down.svg">
+                                </div>
+                                <div class="bg-[#2F424F] rounded-full w-9 h-9 p-[10px] flex justify-center">
+                                    <img src="/assets/imagens/chat-claro.svg">
+                                </div>                            
+                        </div>
+                    </div>
+                    <div class="p-6 rounded-[10px] bg-[#256872] text-white font-medium w-full grid gap-y-3 justify-items-center">
+                        <img src="/assets/imagens/alert.svg">
+                        <div class="text-center">
+                            <p class="leading-4 mb-1.5">Meta abaixo</p>
+                            <p class="text-sm">00/00/0000</p>
+                        </div>
+                        <div class="flex gap-x-3 justify-center">
+                                <div class="bg-[#2F424F] rounded-full w-9 h-9 p-[6px] flex justify-center">
+                                    <img src="/assets/imagens/down.svg">
+                                </div>
+                                <div class="bg-[#2F424F] rounded-full w-9 h-9 p-[10px] flex justify-center relative">
+                                    <div class="absolute w-2 h-2 rounded-full bg-[#FF5D5D] top-0 right-0"></div>
+                                    <img src="/assets/imagens/chat-claro.svg">
+                                </div>                            
+                        </div>
+                    </div>
+                    <div class="p-6 rounded-[10px] bg-[#256872] text-white font-medium w-full grid gap-y-3 justify-items-center">
+                        <img src="/assets/imagens/check.svg">
+                        <div class="text-center">
+                            <p class="leading-4 mb-1.5">Meta batida</p>
+                            <p class="text-sm">00/00/0000</p>
+                        </div>
+                        <div class="flex gap-x-3 justify-center">
+                                <div class="bg-[#2F424F] rounded-full w-9 h-9 p-[6px] flex justify-center">
+                                    <img src="/assets/imagens/down.svg">
+                                </div>
+                                <div class="bg-[#2F424F] rounded-full w-9 h-9 p-[10px] flex justify-center">
+                                    <img src="/assets/imagens/chat-claro.svg">
+                                </div>                            
+                        </div>
+                    </div>
+                    <button>&#10095;</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        const currentPath = window.location.pathname;
+
+        const sidebarLinks = document.querySelectorAll('.sidebar a');
+
+        sidebarLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.style.backgroundColor = '#FFE1B1';
+            }
+        });
+
+        const sidebar = document.querySelector('.sidebar');
+        const main = document.querySelector('main');
+        const diminuirBtn = document.getElementById('diminuir');
+        const maisBtn = document.getElementById('mais');
+
+        diminuirBtn.addEventListener('click', () => {
+            sidebar.classList.add('minimizado');
+            main.style.marginLeft = '110px';
+            diminuirBtn.style.display = 'none';
+            maisBtn.style.display = 'block';
+            logoDaisy.style.display = 'none';
+            diminuirBotao.style.display = 'none';
+            mais.style.display = 'flex';
+        });
+
+        maisBtn.addEventListener('click', () => {
+            sidebar.classList.remove('minimizado');
+            main.style.marginLeft = '280px';
+            diminuirBtn.style.display = 'block';
+            maisBtn.style.display = 'none';
+            logoDaisy.style.display = 'block';
+            diminuirBotao.style.display = 'block';
+            mais.style.display = 'none';
+        });
+
+        const botoes = document.querySelectorAll('#button');
+
+        botoes.forEach(function (botao) {
+            botao?.addEventListener('click', function () {
+                botoes.forEach(function (b) {
+                    b.style.backgroundColor = '';
+                });
+
+                this.style.backgroundColor = '#FFE1B1';
+            });
+        });
+
+
+        const xValues = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        const yValues = [440, 770, 700, 700, 580, 850, 900, 560, 880, 900, 1000, 990];
+        const barColor = "#256872";
+
+        new Chart("myChart", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: Array(xValues.length).fill(barColor),
+                    data: yValues,
+                    barThickness: 13
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    fontSize: 18,
+                    fontFamily: "'Roboto', sans-serif",
+                    fontColor: "#000",
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: true,
+                            drawOnChartArea: false,
+                            drawBorder: true,
+                            color: "#000"
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            fontSize: 11,  // Tamanho da fonte dos rótulos do eixo Y
+                            fontFamily: "'Roboto', sans-serif",  // Fonte dos rótulos do eixo Y
+                            fontColor: "#898989",  // Cor da fonte dos rótulos do eixo Y
+                            fontStyle: '500',  // Peso da fonte
+                            padding: 5,
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: true,
+                            drawOnChartArea: false,
+                            drawBorder: true,
+                            color: "#000"
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            fontSize: 11,  // Tamanho da fonte dos rótulos do eixo Y
+                            fontFamily: "'Roboto', sans-serif",  // Fonte dos rótulos do eixo Y
+                            fontColor: "#898989",  // Cor da fonte dos rótulos do eixo Y
+                            fontStyle: '600',  // Peso da fonte
+                            padding: 10,
+                        }
+                    }]
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>
