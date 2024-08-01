@@ -69,6 +69,16 @@ body{
   letter-spacing: 0.05em;
 }
 
+#produtos {
+  grid-column: span 2 / span 2;
+  grid-template-columns: repeat(6, minmax(0, 1fr));  
+}
+
+.ha {
+  min-height: calc(100vh - 207px);
+  height: auto;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
